@@ -1,3 +1,18 @@
+
+
+:root {
+    /*List of colors in the color scheme as variables
+        we can ofc add more colors as needed*/
+    --colorDark:#0D090A;        /*darkest, almost black*/
+    --colorVibrant:#733148;     /*vibrant middle color (used in logo and icons)*/
+    --colorMild:#785964;        /*less saturated middle color*/
+    --colorLight:#E5DCDF;       /*Lightest, almost white*/
+}
+
+
+
+
+
 .header {
     border-bottom: solid 2px;
 }
@@ -17,6 +32,7 @@
 }
 
 .posts {
+    color: var(--colorDark);
     /* width: 50%; */
 }
 
