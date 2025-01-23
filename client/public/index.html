@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
   <head>
-    <title>Chatter</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatter</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,54 +18,52 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <div class="container text-center">
-      <img src="../../Icons\Logo.svg" alt="Logo" width="500">
-      <h1 class="header-text">Welcome to Chatter!</h1>
-      <p class="header-text">Sign in or create an account</p>
-      <div class="mx-auto form-index"
-        <div class="col-4">
-          <div class="row mb-1 justify-content-center">
-            <div class="col-4">
-              <div class="form-floating">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="userNameInput"
-                  placeholder="Username"
-                />
-                <label for="floatingInput">Username</label>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-1 justify-content-center">
-            <div class="col-4">
-              <div class="form-floating">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="floatingPassword"
-                  placeholder="Password"
-                />
-                <label for="floatingPassword">Password</label>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-1 justify-content-center">
-            <div class="col-4">
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="feed.html">
-                  <button class="btn btn-primary me-md-2" type="button">
-                    Login
-                  </button>
-                </a>
-                <button class="btn btn-outline-primary" type="button">
-                  Create account
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
+    <header class="py-3">
+      <div class="container text-center">
+        <img src="../../Icons/Logo.svg" alt="Chatter Logo" class="img" width="500" />
+        <h1 class="header-text">Welcome to Chatter!</h1>
+        <p class="header-text">Sign in or create an account</p>
       </div>
-    </div>
+    </header>
+
+    <main class="container my-5 form-index">
+      <section class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <form>
+            <div class="mb-3">
+              <label for="userNameInput" class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                id="userNameInput"
+                placeholder="Enter your username"
+                aria-label="Username"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="userPasswordInput" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="userPasswordInput"
+                placeholder="Enter your password"
+                aria-label="Password"
+              />
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="feed.html">
+                <button class="btn btn-secondary me-md-2 btn-custom" type="button">
+                  Login
+                </button>
+              </a>
+              <button class="btn btn-outline-secondary" type="button">
+                Create Account
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

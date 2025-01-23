@@ -7,7 +7,9 @@
     --colorVibrant:#733148;     /*vibrant middle color (used in logo and icons)*/
     --colorMild:#785964;        /*less saturated middle color*/
     --colorLight:#E5DCDF;       /*Lightest, almost white*/
+
 }
+
 
 
 
@@ -15,8 +17,9 @@
     color: #733148;
 }
 
+/*gets overridden so not useful atm*/
 .backgound {
-    background-color: #E5DCDF;
+    background-color: #f1edee;
 }
 
 .form-index {
@@ -42,8 +45,10 @@
     padding-top: 5%;
 }
 
-.posts {
+.post {
     color: var(--colorDark);
+    background-color: #f1edee;
+    
     /* width: 50%; */
 }
 
