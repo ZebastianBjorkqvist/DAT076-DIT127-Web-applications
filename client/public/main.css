@@ -11,6 +11,17 @@
 
 
 
+.header-text {
+    color: #733148;
+}
+
+.backgound {
+    background-color: #E5DCDF;
+}
+
+.form-index {
+    color: #733148;
+}
 
 
 .header {
@@ -49,3 +60,4 @@
 .profile_navbar{
     width: 250px;
 }
+
