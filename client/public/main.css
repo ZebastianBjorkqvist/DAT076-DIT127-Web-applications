@@ -8,10 +8,14 @@
     --colorMild:#785964;        /*less saturated middle color*/
     --colorLight:#E5DCDF;       /*Lightest, almost white*/
 
+    --bs-btn-font-family:
+
 }
 
 
-
+.standard-font{
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+}
 
 .header-text {
     color: #733148;
