@@ -51,13 +51,12 @@
 }
 
 .posts-container {
-    padding-top: 5%;
+    padding-top: 50px;
 }
 
-.posts {
+.post {
     color: var(--colorDark);
-    background-color: #f1edee;
-    width: 70%; /* Sets the width to 50% of the parent container */
+    width: 80%; /* Sets the width to 50% of the parent container */
     text-align: center; /* Optional: centers the text inside */
     border: solid 1px;
     border-radius: 10px;
@@ -68,11 +67,11 @@
 
 .post-author {
     text-align: left;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .post-content{
     text-align: left;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
