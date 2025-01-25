@@ -1,3 +1,36 @@
+
+
+:root {
+    /*List of colors in the color scheme as variables
+        we can ofc add more colors as needed*/
+    --colorDark:#0D090A;        /*darkest, almost black*/
+    --colorVibrant:#733148;     /*vibrant middle color (used in logo and icons)*/
+    --colorMild:#785964;        /*less saturated middle color*/
+    --colorLight:#E5DCDF;       /*Lightest, almost white*/
+
+    --bs-btn-font-family:
+
+}
+
+
+.standard-font{
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+}
+
+.header-text {
+    color: #733148;
+}
+
+/*gets overridden so not useful atm*/
+.backgound {
+    background-color: #f1edee;
+}
+
+.form-index {
+    color: #733148;
+}
+
+
 .header {
     padding-left: 5%;
     padding-right: 5%;
@@ -18,13 +51,12 @@
 }
 
 .posts-container {
-    padding-top: 20px;
-    width: 100%;
-
+    padding-top: 5%;
 }
 
-
-.post {
+.posts {
+    color: var(--colorDark);
+    background-color: #f1edee;
     width: 70%; /* Sets the width to 50% of the parent container */
     text-align: center; /* Optional: centers the text inside */
     border: solid 1px;
@@ -32,6 +64,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 
 .post-author {
     text-align: left;
