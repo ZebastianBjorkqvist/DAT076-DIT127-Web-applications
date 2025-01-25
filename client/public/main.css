@@ -1,35 +1,45 @@
 .header {
-    border-bottom: solid 2px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10px;
+    border-bottom: solid 1px;
 }
 
 .logo {
-    padding-left: 5%;
-    padding-top: 10px;
-}
 
-.user {
-    padding-right: 5%;
-    padding-top: 10px;
-}
-
-.posts-container {
-    padding-top: 5%;
-}
-
-.posts {
-    /* width: 50%; */
-}
-
-.posts-row {
-    display: flex;
-    justify-content: center;
-    width: 50%; /* Sets the width to 50% of the parent container */
-    margin: 0 auto; /* Centers the row */
-    text-align: center; /* Optional: centers the text inside */
-    border: solid 2px;
-    margin-bottom: 10px;
 }
 
 .profile_navbar{
     width: 250px;
 }
+
+.user {
+
+}
+
+.posts-container {
+    padding-top: 20px;
+    width: 100%;
+
+}
+
+
+.post {
+    width: 70%; /* Sets the width to 50% of the parent container */
+    text-align: center; /* Optional: centers the text inside */
+    border: solid 1px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.post-author {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.post-content{
+    text-align: left;
+    margin-left: 10px;
+}
+
