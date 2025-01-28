@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { PostService } from "../service/post";
+import { UserService } from "../service/user";
 import { Post } from "../model/post";
 import { User } from "../model/user";
 
@@ -39,7 +40,7 @@ postRouter.post("/", async (
         if(typeof(text) !== "string"){
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- author has type ${typeof(author)}`)
         }
-        const user = await userService.getUser(author);
+        const user = await userService.getUser();
 
         const title = req.body.title;
         if(typeof(text) !== "string"){
