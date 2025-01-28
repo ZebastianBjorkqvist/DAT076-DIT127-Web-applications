@@ -1,11 +1,8 @@
-// import * as SuperTest from "supertest";
-// import { app } from "./start";
-// import { User } from "../model/user";
+import { UserService } from "./user"
 
-// const request = SuperTest.default(app);
-
-// test("End-to-end test", async () => {
-//   const res1 = await request.post("/").send({  });
-//   expect(res1.statusCode).toEqual(201);
-//   //expect(res1.body.description).toEqual(desc);
-// });
+test("If a user is added, it should exist", async () => {
+    const userService = new UserService();
+    const user = await userService.createUser("firstName", "lastName", "email", "password");
+    const response = await userService.getUser();
+    expect(user.firstName == response.firstName).toBeTruthy();
+})
