@@ -43,7 +43,7 @@ postRouter.post("/", async (
         const user = await userService.getUser();
 
         const title = req.body.title;
-        if(typeof(text) !== "string"){
+        if(typeof(title) !== "string"){
             res.status(400).send(`Bad PUT call to ${req.originalUrl} --- title has type ${typeof(title)}`)
         }
 
