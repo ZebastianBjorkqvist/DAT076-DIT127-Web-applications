@@ -1,12 +1,19 @@
 import { User } from "../model/user";
 
-export class userService {
+export class UserService {
+    private user : User = {} as User;
 
-    private users : User[] = [];
+    async createUser(firstName: string, lastName: string, email:string, password:string) {
+        const user = {
+            id: Date.now(),
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+        }
 
-    async signIn(): Promise<User[]> {
-        return this.users;
+        this.user = user;
+        return user;
     }
-
 
 }
