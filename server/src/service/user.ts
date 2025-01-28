@@ -16,4 +16,8 @@ export class UserService {
         return user;
     }
 
+    async getUser() {
+        return this.user;
+    }
+
 }
