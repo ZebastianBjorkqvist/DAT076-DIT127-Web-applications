@@ -8,7 +8,8 @@ test("If a post is added to the list then it should be in the list", async () =>
     "zeb",
     "bjo",
     "test@email.com",
-    "testpass"
+    "testpass",
+    "user"
   );
   const text = "Test text";
   const author = user;
