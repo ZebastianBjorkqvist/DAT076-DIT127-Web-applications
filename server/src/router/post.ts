@@ -55,7 +55,9 @@ postRouter.post(
         typeof author.firstName !== "string" ||
         typeof author.lastName !== "string" ||
         typeof author.email !== "string" ||
-        typeof author.password !== "string"
+        typeof author.password !== "string" ||
+        typeof author.userName !== "string" 
+        
       ) {
         res
           .status(400)

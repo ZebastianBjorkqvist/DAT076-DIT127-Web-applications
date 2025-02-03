@@ -1,6 +1,6 @@
 import { User } from "../model/user";
 import { PostService } from "./post";
-import { UserService } from "./user";
+
 describe("PostService", () => {
   let postService: PostService;
   let mockUser: User;
@@ -13,6 +13,7 @@ describe("PostService", () => {
       lastName: "User",
       email: "test.user@gmail.com",
       password: "testpass",
+      userName: "testuser"
     }
   });
 
@@ -25,7 +26,7 @@ describe("PostService", () => {
     const posts = await postService.getPosts();
     expect(
       posts.some(
-        (p) => p.text === text && p.title === title && p.author.id === mockUser.id && p.author.firstName === mockUser.firstName
+        (p) => p.text === text && p.title === title && p.author.id === mockUser.id && p.author.userName === mockUser.userName
       )
     ).toBeTruthy();
   });

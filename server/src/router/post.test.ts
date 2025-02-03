@@ -12,6 +12,7 @@ test("POST /post - should create a new post", async () => {
       lastName: "User",
       email: "test.user@gmail.com",
       password: "testpass",
+      userName: "username"
     },
   };
 
@@ -39,6 +40,7 @@ test("POST /post - should return 400 for invalid text input", async () => {
       lastName: "User",
       email: "test.user@gmail.com",
       password: "testpass",
+      userName: "username"
     },
   };
 
@@ -58,6 +60,7 @@ test("POST /post - should return 400 for invalid title input", async () => {
       lastName: "User",
       email: "test.user@gmail.com",
       password: "testpass",
+      userName: "username"
     },
   };
 

@@ -12,6 +12,7 @@ test("End-to-end test", async () => {
     lastName: "User",
     email: "test.user@gmail.com",
     password: "testpass",
+    userName: "testuser"
   }
 
   const testCreatePostInput = {
