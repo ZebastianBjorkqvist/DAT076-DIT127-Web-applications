@@ -1,13 +1,12 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
 import { UserService } from "../service/user";
 import { Post } from "../model/post";
 import { User } from "../model/user";
 
-const postService = new PostService();
-const userService = new UserService();
+const postService : PostService = new PostService();
 
-export const postRouter = express.Router();
+export const postRouter: Router = express.Router();
 
 postRouter.get(
   "/",

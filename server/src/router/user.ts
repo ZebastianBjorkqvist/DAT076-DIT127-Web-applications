@@ -6,7 +6,7 @@ const userService: UserService = new UserService();
 
 export const userRouter: Router = express.Router();
 
-userRouter.post(
+userRouter.get(
   "/",
   async (req: Request<{}, {}, {}>, res: Response<User | string>) => {
     try {
