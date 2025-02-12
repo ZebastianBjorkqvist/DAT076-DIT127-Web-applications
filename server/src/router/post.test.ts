@@ -93,10 +93,12 @@ test("DELETE /post/reset - should delete all posts", async () => {
   };
 
   await request.post("/post").send(newPostInput);
+  const getPostRes = await request.get("/post");
+  expect(getPostRes.body.length).toEqual(1);
 
-  const res = await request.delete("/post/reset");
-  expect(res.statusCode).toBe(200);
+  const deletePostRes = await request.delete("/post/reset");
+  expect(deletePostRes.statusCode).toBe(200);
 
-  const res2 = await request.get("/post");
-  expect(res2.body.length).toEqual(0);
+  const getPostRes2 = await request.get("/post");
+  expect(getPostRes2.body.length).toEqual(0);
 });

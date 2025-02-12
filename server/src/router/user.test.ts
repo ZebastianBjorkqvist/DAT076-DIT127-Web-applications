@@ -14,7 +14,6 @@ test("Post /user - should create a user", async () => {
   const response = await request.post("/user").send(testUserInput);
 
   expect(response.statusCode).toBe(201);
-  console.log(response.body);
 
   expect(response.body.firstName).toEqual(testUserInput.firstName);
   expect(response.body.lastName).toEqual(testUserInput.lastName);
@@ -27,6 +26,5 @@ test("Post /user - should create a user", async () => {
 
 test("Post /user - should return the current user", async () => {
   const res = await request.get("/user");
-  console.log(res.body);
   expect(res.statusCode).toBe(201);
 });
