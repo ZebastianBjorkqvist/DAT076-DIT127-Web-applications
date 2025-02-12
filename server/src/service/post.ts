@@ -26,4 +26,7 @@ export class PostService {
     return post;
   }
   
+  clearPosts(): void {
+    this.posts = [];
+  }
 }
