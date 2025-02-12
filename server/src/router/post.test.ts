@@ -1,6 +1,5 @@
 import * as SuperTest from "supertest";
 import { app } from "../start";
-import exp from "constants";
 
 const request = SuperTest.default(app);
 
@@ -31,10 +30,26 @@ test("POST /post - should create a new post", async () => {
 });
 
 test("GET /post - should return all posts", async () => {
+  const newPostInput = {
+    text: "New Post",
+    title: "New Title",
+    author: {
+      id: Date.now(),
+      firstName: "Test",
+      lastName: "User",
+      email: "test.user@gmail.com",
+      password: "testpass",
+      userName: "username",
+    },
+  };
+
+  await request.post("/post").send(newPostInput);
+  await request.post("/post").send(newPostInput);
+
   const res = await request.get("/post");
 
   expect(res.statusCode).toBe(200);
-  expect(res.body.length).toEqual(0);
+  expect(res.body.length).toEqual(2);
 });
 
 test("POST /post - should return 400 for invalid text input", async () => {
