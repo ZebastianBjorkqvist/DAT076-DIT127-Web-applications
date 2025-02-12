@@ -1,19 +1,15 @@
 import { app } from "./start";
 
+/**
+ * App Variables
+ */
+
+const PORT: number = 8080;
 
 /**
-* App Variables
-*/
-
-
-const PORT : number = 8080;
-
-
-/**
-* Server Activation
-*/
-
+ * Server Activation
+ */
 
 app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
+  console.log(`listening on port ${PORT}`);
 });

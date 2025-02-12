@@ -1,10 +1,9 @@
 import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
-import { UserService } from "../service/user";
 import { Post } from "../model/post";
 import { User } from "../model/user";
 
-const postService : PostService = new PostService();
+const postService: PostService = new PostService();
 
 export const postRouter: Router = express.Router();
 
@@ -56,8 +55,7 @@ postRouter.post(
         typeof author.lastName !== "string" ||
         typeof author.email !== "string" ||
         typeof author.password !== "string" ||
-        typeof author.userName !== "string" 
-        
+        typeof author.userName !== "string"
       ) {
         res
           .status(400)

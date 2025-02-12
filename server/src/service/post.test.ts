@@ -13,8 +13,8 @@ describe("PostService", () => {
       lastName: "User",
       email: "test.user@gmail.com",
       password: "testpass",
-      userName: "testuser"
-    }
+      userName: "testuser",
+    };
   });
 
   test("If a post is added to the list then it should be in the list", async () => {
@@ -26,7 +26,11 @@ describe("PostService", () => {
     const posts = await postService.getPosts();
     expect(
       posts.some(
-        (p) => p.text === text && p.title === title && p.author.id === mockUser.id && p.author.userName === mockUser.userName
+        (p) =>
+          p.text === text &&
+          p.title === title &&
+          p.author.id === mockUser.id &&
+          p.author.userName === mockUser.userName
       )
     ).toBeTruthy();
   });
@@ -43,23 +47,35 @@ describe("PostService", () => {
   });
 
   test("should throw an error if text is empty", async () => {
-    await expect(postService.createPost("", mockUser, "Title")).rejects.toThrow("Text and title are required.");
+    await expect(postService.createPost("", mockUser, "Title")).rejects.toThrow(
+      "Text and title are required."
+    );
   });
 
   test("should throw an error if title is empty", async () => {
-    await expect(postService.createPost("Some content", mockUser, "")).rejects.toThrow("Text and title are required.");
+    await expect(
+      postService.createPost("Some content", mockUser, "")
+    ).rejects.toThrow("Text and title are required.");
   });
 
   test("should throw an error if author is missing", async () => {
-    await expect(postService.createPost("Some content", null as unknown as User, "Title")).rejects.toThrow("Valid author is required.");
+    await expect(
+      postService.createPost("Some content", null as unknown as User, "Title")
+    ).rejects.toThrow("Valid author is required.");
   });
 
   test("should throw an error if author is invalid", async () => {
-    await expect(postService.createPost("Some content", {} as User, "Title")).rejects.toThrow("Valid author is required.");
+    await expect(
+      postService.createPost("Some content", {} as User, "Title")
+    ).rejects.toThrow("Valid author is required.");
   });
 
   test("should not modify the original post in the posts array", async () => {
-    const post = await postService.createPost("Immutable check", mockUser, "Immutability");
+    const post = await postService.createPost(
+      "Immutable check",
+      mockUser,
+      "Immutability"
+    );
     post.text = "Modified Text"; // Modify the returned object
 
     const posts = await postService.getPosts();
@@ -75,4 +91,3 @@ describe("PostService", () => {
   
 
 });
-

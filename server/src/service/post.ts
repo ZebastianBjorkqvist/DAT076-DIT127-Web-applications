@@ -15,7 +15,7 @@ export class PostService {
     if (!author || !author.id || !author.firstName) {
       throw new Error("Valid author is required.");
     }
-  
+
     const post: Post = {
       id: Date.now(),
       text,

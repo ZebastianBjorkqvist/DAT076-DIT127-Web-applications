@@ -6,4 +6,4 @@ export const app = express();
 
 app.use(express.json());
 app.use("/post", postRouter);
-app.use("/user", userRouter)
+app.use("/user", userRouter);
