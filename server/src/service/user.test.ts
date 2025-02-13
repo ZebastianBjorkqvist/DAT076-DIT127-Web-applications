@@ -2,9 +2,9 @@ import { User } from "../model/user";
 import { UserService } from "./user";
 
 let userCpy = {} as User;
+const userService = new UserService();
 
 test("If a user is added, it should exist", async () => {
-  const userService = new UserService();
   const user = await userService.createUser(
     "firstName",
     "lastName",
@@ -18,7 +18,6 @@ test("If a user is added, it should exist", async () => {
 });
 
 test("If a new user is created, it should replace the old one", async () => {
-  const userService = new UserService();
   await userService.createUser("fname", "lname", "mail", "passwd", "usrnme");
   const response = await userService.getUser();
   expect(userCpy != response).toBeTruthy();

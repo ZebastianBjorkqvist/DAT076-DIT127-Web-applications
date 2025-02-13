@@ -25,4 +25,8 @@ export class PostService {
     this.posts.push(JSON.parse(JSON.stringify(post)));
     return post;
   }
+  
+  clearPosts(): void {
+    this.posts = [];
+  }
 }

@@ -81,4 +81,13 @@ describe("PostService", () => {
     const posts = await postService.getPosts();
     expect(posts[0].text).toBe("Immutable check"); // The original should remain unchanged
   });
+
+  test("should clear all posts", async () => {
+    await postService.createPost("First", mockUser, "Title 1");
+    postService.clearPosts();
+    const posts = await postService.getPosts();
+    expect(posts.length).toBe(0);
+  });
+  
+
 });

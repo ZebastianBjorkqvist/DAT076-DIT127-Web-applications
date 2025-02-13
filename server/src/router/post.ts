@@ -83,3 +83,9 @@ postRouter.post(
     }
   }
 );
+
+
+postRouter.delete("/reset", (req: Request, res: Response) => {
+  postService.clearPosts(); // This function should reset the list
+  res.status(200).send("Post list cleared");
+});

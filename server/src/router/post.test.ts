@@ -1,6 +1,12 @@
 import * as SuperTest from "supertest";
 import { app } from "../start";
+
 const request = SuperTest.default(app);
+
+beforeEach(async () => {
+  await request.delete("/post/reset");
+
+});
 
 test("POST /post - should create a new post", async () => {
   const newPostInput = {
@@ -24,10 +30,26 @@ test("POST /post - should create a new post", async () => {
 });
 
 test("GET /post - should return all posts", async () => {
+  const newPostInput = {
+    text: "New Post",
+    title: "New Title",
+    author: {
+      id: Date.now(),
+      firstName: "Test",
+      lastName: "User",
+      email: "test.user@gmail.com",
+      password: "testpass",
+      userName: "username",
+    },
+  };
+
+  await request.post("/post").send(newPostInput);
+  await request.post("/post").send(newPostInput);
+
   const res = await request.get("/post");
 
   expect(res.statusCode).toBe(200);
-  expect(res.body.length).toEqual(1);
+  expect(res.body.length).toEqual(2);
 });
 
 test("POST /post - should return 400 for invalid text input", async () => {
@@ -68,4 +90,30 @@ test("POST /post - should return 400 for invalid title input", async () => {
 
   expect(res.statusCode).toBe(400);
   expect(res.text).toContain("Bad PUT call to");
+});
+
+
+test("DELETE /post/reset - should delete all posts", async () => {
+  const newPostInput = {
+    text: "New Post",
+    title: "New Title",
+    author: {
+      id: Date.now(),
+      firstName: "Test",
+      lastName: "User",
+      email: "test.user@gmail.com",
+      password: "testpass",
+      userName: "username"
+    },
+  };
+
+  await request.post("/post").send(newPostInput);
+  const getPostRes = await request.get("/post");
+  expect(getPostRes.body.length).toEqual(1);
+
+  const deletePostRes = await request.delete("/post/reset");
+  expect(deletePostRes.statusCode).toBe(200);
+
+  const getPostRes2 = await request.get("/post");
+  expect(getPostRes2.body.length).toEqual(0);
 });
