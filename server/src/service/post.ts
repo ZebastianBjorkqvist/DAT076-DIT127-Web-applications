@@ -8,11 +8,11 @@ export class PostService {
     return this.posts;
   }
 
-  async createPost(text: string, author: User, title: string): Promise<Post> {
+  async createPost(text: string, author: number, title: string): Promise<Post> {
     if (!text || !title) {
       throw new Error("Text and title are required.");
     }
-    if (!author || !author.id || !author.firstName) {
+    if (!author) {
       throw new Error("Valid author is required.");
     }
 

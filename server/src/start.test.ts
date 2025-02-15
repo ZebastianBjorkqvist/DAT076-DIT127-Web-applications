@@ -18,7 +18,7 @@ test("End-to-end test", async () => {
 
   const testCreatePostInput = {
     text: "This is a test post",
-    author: authorObject,
+    author: authorObject.id,
     title: "Test title",
   };
 
@@ -38,7 +38,7 @@ test("End-to-end test", async () => {
   const createPostResult = await request.post("/post").send(testCreatePostInput);
   expect(createPostResult.statusCode).toEqual(201);
   expect(createPostResult.body.text).toEqual(testCreatePostInput.text);
-  expect(createPostResult.body.author).toEqual(authorObject);
+  expect(createPostResult.body.author).toEqual(authorObject.id);
   expect(createPostResult.body.title).toEqual(testCreatePostInput.title);
 
   const getPostResult = await request.get("/post");

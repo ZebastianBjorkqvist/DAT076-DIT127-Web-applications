@@ -27,7 +27,7 @@ postRouter.post(
       {},
       {
         text: string;
-        author: User;
+        author: number;
         title: string;
       }
     >,
@@ -47,16 +47,7 @@ postRouter.post(
       }
 
       // Validera att author är ett objekt och har rätt User-struktur
-      if (
-        typeof author !== "object" ||
-        author === null ||
-        typeof author.id !== "number" ||
-        typeof author.firstName !== "string" ||
-        typeof author.lastName !== "string" ||
-        typeof author.email !== "string" ||
-        typeof author.password !== "string" ||
-        typeof author.userName !== "string"
-      ) {
+      if (typeof author !== "number") {
         res
           .status(400)
           .send(

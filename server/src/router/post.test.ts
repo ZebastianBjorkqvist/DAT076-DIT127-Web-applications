@@ -12,14 +12,7 @@ test("POST /post - should create a new post", async () => {
   const newPostInput = {
     text: "New Post",
     title: "New Title",
-    author: {
-      id: Date.now(),
-      firstName: "Test",
-      lastName: "User",
-      email: "test.user@gmail.com",
-      password: "testpass",
-      userName: "username",
-    },
+    author: Date.now()
   };
 
   const res = await request.post("/post").send(newPostInput);
@@ -33,14 +26,7 @@ test("GET /post - should return all posts", async () => {
   const newPostInput = {
     text: "New Post",
     title: "New Title",
-    author: {
-      id: Date.now(),
-      firstName: "Test",
-      lastName: "User",
-      email: "test.user@gmail.com",
-      password: "testpass",
-      userName: "username",
-    },
+    author: Date.now()
   };
 
   await request.post("/post").send(newPostInput);
@@ -56,14 +42,7 @@ test("POST /post - should return 400 for invalid text input", async () => {
   const invalidPostInput = {
     text: 123, // Invalid type
     title: "New Title",
-    author: {
-      id: Date.now(),
-      firstName: "Test",
-      lastName: "User",
-      email: "test.user@gmail.com",
-      password: "testpass",
-      userName: "username",
-    },
+    author: Date.now()
   };
 
   const res = await request.post("/post").send(invalidPostInput);
@@ -76,14 +55,7 @@ test("POST /post - should return 400 for invalid title input", async () => {
   const invalidPostInput = {
     text: "New Post",
     title: 123, // Invalid type
-    author: {
-      id: Date.now(),
-      firstName: "Test",
-      lastName: "User",
-      email: "test.user@gmail.com",
-      password: "testpass",
-      userName: "username",
-    },
+    author: Date.now()
   };
 
   const res = await request.post("/post").send(invalidPostInput);
@@ -97,14 +69,7 @@ test("DELETE /post/reset - should delete all posts", async () => {
   const newPostInput = {
     text: "New Post",
     title: "New Title",
-    author: {
-      id: Date.now(),
-      firstName: "Test",
-      lastName: "User",
-      email: "test.user@gmail.com",
-      password: "testpass",
-      userName: "username"
-    },
+    author: Date.now()
   };
 
   await request.post("/post").send(newPostInput);
