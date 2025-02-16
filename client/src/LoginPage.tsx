@@ -3,7 +3,7 @@ import "./App.css";
 import Login from "./components/login.tsx";
 import Header from "./components/loginHeader.tsx";
 
-function App() {
+function LoginPage() {
   return (
     <>
       <Header></Header>
@@ -17,4 +17,4 @@ function App() {
     </>
   );
 }
-export default App;
+export default LoginPage;
