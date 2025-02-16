@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import {BrowserRouter, Routes, Route} from "react-router"
-import { FeedPage } from "./feedPage.tsx";
+import FeedPage from "./feedPage.tsx";
 import LoginPage from "./LoginPage.tsx";
 import { CreateUser } from "./createUser.tsx";
 import { CreatePost } from "./createPost.tsx";
