@@ -1,0 +1,94 @@
+:root {
+    /*List of colors in the color scheme as variables
+        we can ofc add more colors as needed*/
+    --colorDark:#0D090A;        /*darkest, almost black*/
+    --colorVibrant:#733148;     /*vibrant middle color (used in logo and icons)*/
+    --colorMild:#785964;        /*less saturated middle color*/
+    --colorLight:#E5DCDF;       /*Lightest, almost white*/
+    --color1:#c9babf;       /*button colors*/
+
+
+    --bs-btn-font-family:
+    
+
+}
+
+.size_and_colors{
+    height: 700px;
+    background-color: #f1f1f1;
+    padding: 0;
+    margin: 0;
+
+
+}
+.no-padding{
+    padding: 0;
+    margin: 0;
+}
+
+.header_colors{
+    color: var(--colorVibrant);
+    background-color: #E5DCDF;
+
+}
+
+.header-text{
+    font-size: xx-large;
+    color: #733148 !important;
+}
+
+.standard-font{
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+}
+
+.item1 { grid-area: header;}
+.item2 { grid-area: left; }
+.item3 { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'header header header header header header'
+    'left main main main main right'
+    'footer footer footer footer footer footer';
+    gap: 10px;
+    padding: 10px;
+    background-color: #E5DCDF;
+} 
+
+.grid-container > div {
+    background-color: #f1f1f1;
+    color: var(--colorVibrant);
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .floating-icon {
+    position: fixed;
+    bottom: 50px; /* Distance from bottom */
+    right: 200px; /* Distance from right */
+    background-color: var(--colorMild); 
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .btn-custom {
+    background-color: var(--colorLight) !important;
+    border-color: var(--colorLight) !important;
+    color: var(--colorDark) !important;
+  }
+  
+  .btn-custom:hover {
+    background-color: var(--color1) !important;
+    border-color: var(--color1);
+  }
+  
+ 

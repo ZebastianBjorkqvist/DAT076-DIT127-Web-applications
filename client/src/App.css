@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.fit-content{
+  width: fit-content; /* Container shrinks to content size */
+  max-width: 100%; /* Prevents overflow */
+  padding: 10px;
+}
