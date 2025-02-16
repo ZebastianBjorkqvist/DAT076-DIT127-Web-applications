@@ -9,13 +9,6 @@ export class PostService {
   }
 
   async createPost(text: string, author: number, title: string): Promise<Post> {
-    if (!text || !title) {
-      throw new Error("Text and title are required.");
-    }
-    if (!author) {
-      throw new Error("Valid author is required.");
-    }
-
     const post: Post = {
       id: Date.now(),
       text,
@@ -25,7 +18,7 @@ export class PostService {
     this.posts.push(JSON.parse(JSON.stringify(post)));
     return post;
   }
-  
+
   clearPosts(): void {
     this.posts = [];
   }
