@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
 import { Post } from "../model/post";
-import { User } from "../model/user";
 
 const postService: PostService = new PostService();
 
@@ -74,7 +73,6 @@ postRouter.post(
     }
   }
 );
-
 
 postRouter.delete("/reset", (req: Request, res: Response) => {
   postService.clearPosts(); // This function should reset the list

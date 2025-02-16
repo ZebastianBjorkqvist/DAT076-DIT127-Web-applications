@@ -1,5 +1,4 @@
 import { Post } from "../model/post";
-import { User } from "../model/user";
 
 export class PostService {
   private posts: Post[] = [];
