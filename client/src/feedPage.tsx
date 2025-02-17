@@ -1,6 +1,6 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useState } from 'react'
-import { getPosts, post } from "./api";
+import { getPosts, Post } from "./api";
 import MainHeader from "./components/mainHeader";
 import "./feed.css";
 import Container from 'react-bootstrap/Container';

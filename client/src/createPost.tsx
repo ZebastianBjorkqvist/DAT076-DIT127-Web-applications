@@ -3,6 +3,7 @@ import MainHeader from './components/mainHeader';
 import Spinner from 'react-bootstrap/Spinner';
 import './CreatePost.css'
 import { useNavigate } from 'react-router-dom'
+import { createPost, getPosts } from './api';
 
 export function CreatePost() {
     const [postContent, setPostContent] = useState("");
@@ -45,6 +46,26 @@ export function CreatePost() {
 
     };
 
+    const handlePostSubmit2 = async () => {
+        if (!postContent.trim() || !postTitle.trim()) {
+            alert("Post content cannot be empty!");
+            return;
+        }
+        setLoading(true);
+        createPost(postTitle, postContent).then((response) => {
+            if (typeof response === "string") {
+                alert("Failed to submit post");
+            } else {
+                alert("Post submitted successfully!");
+                navigate('/feed');
+            }
+        }).catch((error) => {
+            alert("Failed to submit post: " + error);
+        }).finally(() => {
+            setLoading(false);
+        });
+    };
+
     return (
         <>
             <MainHeader />
@@ -70,7 +91,7 @@ export function CreatePost() {
                     </button>
                     <button
                         className="btn btn-primary"
-                        onClick={handlePostSubmit}
+                        onClick={handlePostSubmit2}
                         disabled={!postContent.trim() || !postTitle.trim()}
                     >
                         Submit Post
