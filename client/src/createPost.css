@@ -1,0 +1,18 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);  /* Dark transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;  /* Ensure it's on top */
+}
+
+.create-post-container {
+    max-width: 1000px;  /* ✅ Limits the width to 300px */
+    padding-left: 10%;
+    padding-right: 10%;
+}
