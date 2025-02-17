@@ -5,22 +5,18 @@ const request = SuperTest.default(app);
 
 test("Post /user - should create a user", async () => {
   const testUserInput = {
-    firstName: "Test",
-    lastName: "User",
     email: "test.user@gmail.com",
     password: "testpass",
-    userName: "testusername",
+    username: "testusername",
   };
   const response = await request.post("/user").send(testUserInput);
 
   expect(response.statusCode).toBe(201);
 
-  expect(response.body.firstName).toEqual(testUserInput.firstName);
-  expect(response.body.lastName).toEqual(testUserInput.lastName);
   expect(response.body.email).toEqual(testUserInput.email);
   expect(response.body.password).toEqual(testUserInput.password);
   expect(response.body.password).toEqual(testUserInput.password);
-  expect(response.body.userName).toEqual(testUserInput.userName);
+  expect(response.body.username).toEqual(testUserInput.username);
   expect(response.body.id).toEqual(expect.any(Number));
 });
 
