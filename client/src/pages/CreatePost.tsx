@@ -3,10 +3,12 @@ import MainHeader from '../components/mainHeader';
 import Spinner from 'react-bootstrap/Spinner';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
+<<<<<<< HEAD
 <<<<<<< HEAD:client/src/pages/CreatePost.tsx
 import { createPost, getPosts } from '../api';
 =======
-import { createPost} from './api';
+=======
+>>>>>>> d00b248b572103ba46af12cb8bad9892cc3a8cdd
 
 export function CreatePost() {
     const [postContent, setPostContent] = useState("");
