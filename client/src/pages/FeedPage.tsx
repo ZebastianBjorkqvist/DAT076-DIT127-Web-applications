@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import CreatePostIcon from "../assets/Pencil 01.svg";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import FeedCard from "./components/feedCard";
 
 
 
@@ -35,9 +36,15 @@ const FeedPage = () => {
             <Container fluid className="mt-3">
             <Row>
                 {/* Full-width feed content */}
-                <Col md={12} className="p-4">
-                <h2>Feed Page</h2>
-                <p>TODO: display posts here</p>
+                <Col xs= {2} className="sidebar" ></Col>
+                <Col xs = {8} className="p-4">
+                <Container>
+                    <h2 className="header-text">Welcome to the feed!</h2>
+                    <FeedCard />
+
+                </Container>
+                <Col xs={2} className="sidebar"></Col>
+                    
                 </Col>
             </Row>
             </Container>
