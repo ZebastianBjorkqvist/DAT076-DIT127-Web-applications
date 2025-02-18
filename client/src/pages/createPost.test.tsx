@@ -4,7 +4,6 @@ global.TextDecoder = TextDecoder as any;
 
 import CreatePost from "./CreatePost";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
@@ -24,9 +23,7 @@ jest.mock("react-router-dom", () => ({
 describe("CreatePost component", () => {
     test("renders form correctly", () => {
         render(
-            <MemoryRouter>
-                <CreatePost />
-            </MemoryRouter>
+            <CreatePost />
         );
 
         // Check for input fields and buttons
@@ -38,9 +35,7 @@ describe("CreatePost component", () => {
 
     test("disables submit button when input fields are empty", () => {
         render(
-            <MemoryRouter>
-                <CreatePost />
-            </MemoryRouter>
+            <CreatePost />
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -50,9 +45,7 @@ describe("CreatePost component", () => {
 
     test("enables submit button when input fields are filled", () => {
         render(
-            <MemoryRouter>
-                <CreatePost />
-            </MemoryRouter>
+            <CreatePost />
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -69,9 +62,7 @@ describe("CreatePost component", () => {
 
     test("submitting a post test: succeful alert should appear", async () => {
         render(
-            <MemoryRouter>
-                <CreatePost />
-            </MemoryRouter>
+            <CreatePost />
         );
 
         const submitButton = screen.getByText("Submit Post");
