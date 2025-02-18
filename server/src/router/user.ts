@@ -20,7 +20,7 @@ userRouter.get("/", async (req: UserRequest, res: Response) => {
   }
 });
 
-userRouter.post("/user", async (req: UserRequest, res: Response) => {
+userRouter.post("/", async (req: UserRequest, res: Response) => {
   try {
     const email = req.body.email;
     if (typeof email !== "string") {
