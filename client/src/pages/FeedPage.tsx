@@ -8,23 +8,33 @@ import CreatePostIcon from "../assets/Pencil 01.svg";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
+import { useEffect, useState } from "react";
+import { Post } from '../../../server/src/model/post';
+import { getPosts } from "../api";
 
 const FeedPage = () => {
   const navigate = useNavigate();
-  /*
-    Tried something which didn't work yet
-    const [posts, setPosts] = useState<post[]>([]);
 
-    async function loadPosts() {
-        const ts = await getPosts()
-        setPosts(ts)
-        
+  const [posts, setPosts] = useState<Post[]>([])
+
+  async function loadPosts() {
+    try {
+      const ts = await getPosts();
+      setPosts(ts);
+      console.log(posts);
+      
+    } catch (error) {
+      console.error("Failed to load posts:", error);
     }
-    */
+  }
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
 
   return (
     <div className="feed-page size_and_colors w-100">
-      <Container fluid sticky-top>
+      <Container fluid className="sticky-top">
         <MainHeader />
       </Container>
 
@@ -37,6 +47,9 @@ const FeedPage = () => {
               <h2 className="header-text">Welcome to the feed!</h2>
               <FeedCard />
             </Container>
+            {posts.map((p) => (
+              <div key={p.id}>{p.author}</div>
+            ))}
             <Col xs={2} className="sidebar"></Col>
           </Col>
         </Row>
