@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import MainHeader from '../components/mainHeader';
-import Spinner from 'react-bootstrap/Spinner';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
 import { createPost} from '../api';
@@ -8,30 +7,27 @@ import { createPost} from '../api';
 export function CreatePost() {
   const [postContent, setPostContent] = useState("");
   const [postTitle, setPostTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({message: "", type: ""});
   const navigate = useNavigate();
 
   const handlePostSubmit = async () => {
     if (!postContent.trim() || !postTitle.trim()) {
-      alert("Post content cannot be empty!");
+      setAlert({ type: "danger", message: "Cannot be any empty fields!" });
       return;
     }
-    setLoading(true);
     createPost(postTitle, postContent)
       .then((response) => {
         if (typeof response === "string") {
-          alert("Something went wrong submitting a post");
+          setAlert({ type: "danger", message: "Something went wrong submitting a post" });
         } else {
-          alert("Post submitted successfully!");
-          navigate("/feed");
+          setAlert({ type: "success", message: "Post submitted successfully!" });
+          setPostTitle("");
+          setPostContent("");
         }
       })
       .catch((error) => {
         console.log("Failed creating a post: ", error.message);
-        alert("Something went wrong submitting a post");
-      })
-      .finally(() => {
-        setLoading(false);
+        setAlert({ type: "danger", message: "Something went wrong submitting a post" });
       });
   };
 
@@ -40,10 +36,20 @@ export function CreatePost() {
       <MainHeader />
       <div className="container mt-5 create-post-container text-start">
         <h1 className="mb-4">Create Post</h1>
+
+        
+        {alert.message && (
+          <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+            {alert.message}
+            <button type="button" className="btn-close" onClick={() => setAlert({ message: "", type: "" })}></button>
+          </div>
+        )}
+
         <input
           type="text"
           className="form-control mb-3"
           placeholder="Title"
+          value={postTitle}
           onChange={(e) => setPostTitle(e.target.value)}
         />
         <textarea
@@ -69,13 +75,6 @@ export function CreatePost() {
           </button>
         </div>
       </div>
-      {loading && (
-        <div className="loading-overlay">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      )}
     </>
   );
 }
