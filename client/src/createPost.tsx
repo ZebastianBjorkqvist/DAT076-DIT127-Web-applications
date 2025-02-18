@@ -3,7 +3,7 @@ import MainHeader from './components/mainHeader';
 import Spinner from 'react-bootstrap/Spinner';
 import './CreatePost.css'
 import { useNavigate } from 'react-router-dom'
-import { createPost, getPosts } from './api';
+import { createPost} from './api';
 
 export function CreatePost() {
     const [postContent, setPostContent] = useState("");
@@ -17,50 +17,16 @@ export function CreatePost() {
             return;
         }
         setLoading(true);
-        const post = { text: postContent, author: 123, title: postTitle };
-
-        try {
-            const response = await fetch("http://localhost:8080/post", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(post),
-            });
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            alert("Post submitted successfully!");
-            navigate('/feed');
-        } catch (e) {
-            let errorMessage = "An unknown error occurred.";
-
-            if (e instanceof Error) {
-                errorMessage = e.message;
-            }
-
-            alert(`Failed to submit post: ${errorMessage}`);
-        }finally{
-            setLoading(false);
-        }
-
-    };
-
-    const handlePostSubmit2 = async () => {
-        if (!postContent.trim() || !postTitle.trim()) {
-            alert("Post content cannot be empty!");
-            return;
-        }
-        setLoading(true);
         createPost(postTitle, postContent).then((response) => {
             if (typeof response === "string") {
-                alert("Failed to submit post");
+                alert("Something went wrong submitting a post");
             } else {
                 alert("Post submitted successfully!");
                 navigate('/feed');
             }
         }).catch((error) => {
-            alert("Failed to submit post: " + error);
+            console.log("Failed creating a post: ", error.message);
+            alert("Something went wrong submitting a post");
         }).finally(() => {
             setLoading(false);
         });
@@ -91,7 +57,7 @@ export function CreatePost() {
                     </button>
                     <button
                         className="btn btn-primary"
-                        onClick={handlePostSubmit2}
+                        onClick={handlePostSubmit}
                         disabled={!postContent.trim() || !postTitle.trim()}
                     >
                         Submit Post
