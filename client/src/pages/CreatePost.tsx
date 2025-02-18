@@ -3,7 +3,7 @@ import MainHeader from '../components/mainHeader';
 import Spinner from 'react-bootstrap/Spinner';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
-import { createPost} from './api';
+import { createPost} from '../api';
 
 export function CreatePost() {
     const [postContent, setPostContent] = useState("");
