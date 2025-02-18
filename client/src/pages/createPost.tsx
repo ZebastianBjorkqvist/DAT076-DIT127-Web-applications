@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import MainHeader from './components/mainHeader';
+import MainHeader from '../components/mainHeader';
 import Spinner from 'react-bootstrap/Spinner';
-import './CreatePost.css'
+import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
-import { createPost, getPosts } from './api';
+import { createPost, getPosts } from '../api';
 
 export function CreatePost() {
     const [postContent, setPostContent] = useState("");
