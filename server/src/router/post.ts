@@ -50,7 +50,7 @@ postRouter.post(
         res
           .status(400)
           .send(
-            `Bad POST call to ${req.originalUrl} --- author must be a valid User object`
+            `Bad POST call to ${req.originalUrl} --- author must be a of type number`
           );
         return;
       }
