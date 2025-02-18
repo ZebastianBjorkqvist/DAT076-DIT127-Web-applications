@@ -1,10 +1,32 @@
 import { Component } from "react";
+import { createUser } from "../api";
 export default class NewUser extends Component {
+
+  state = {
+    email: "",
+    username: "",
+    password: "",
+  };
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      await createUser(this.state.email, this.state.username, this.state.password);
+    } catch (error) {
+      console.error("Failed to create user:", error);
+    }
+  };
+  
   render() {
     return (
       <>
       
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <h3>Create user</h3>
           <div className="mb-3">
             <label>Email address</label>
@@ -12,6 +34,9 @@ export default class NewUser extends Component {
               type="email"
               className="form-control"
               placeholder="Enter email"
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
@@ -20,6 +45,9 @@ export default class NewUser extends Component {
               type="text"
               className="form-control"
               placeholder="Enter username"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
             />
           </div>
           <div className="mb-3">
@@ -28,6 +56,9 @@ export default class NewUser extends Component {
               type="password"
               className="form-control"
               placeholder="Enter password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
             />
           </div>
           <div className="d-grid">

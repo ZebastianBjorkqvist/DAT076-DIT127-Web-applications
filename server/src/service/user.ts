@@ -4,19 +4,15 @@ export class UserService {
   private user: User = {} as User;
 
   async createUser(
-    firstName: string,
-    lastName: string,
     email: string,
     password: string,
     username: string
   ) {
     const user = {
       id: Date.now(),
-      firstName: firstName,
-      lastName: lastName,
       email: email,
       password: password,
-      userName: username,
+      username: username,
     };
 
     this.user = user;
