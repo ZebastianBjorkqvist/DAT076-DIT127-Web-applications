@@ -5,7 +5,7 @@ import {createPost, Post } from "./api";
 const mock = new MockAdapter(axios);
 const BASE_URL = "http://localhost:8080";
 
-describe("API Calls", () => {
+describe("API-calls createPost-function", () => {
     beforeEach(() => {
         mock.reset();
     });

@@ -60,7 +60,7 @@ describe("CreatePost component", () => {
     });
 
 
-    test("submitting a post test: succeful alert should appear", async () => {
+    test("submitting a post test: succeful alert should appear, inputs should be cleaned", async () => {
         render(
             <CreatePost />
         );
@@ -82,6 +82,10 @@ describe("CreatePost component", () => {
 
         //expect success alert to appear
         expect(await screen.findByText("Post submitted successfully!")).toBeInTheDocument();
+
+        //expect inputs to be cleaned
+        expect(titleInput.value).toBe("");
+        expect(contentInput.value).toBe("");
     });
 
     test("error alert should appear when post submission fails", async () => {
@@ -114,6 +118,7 @@ describe("CreatePost component", () => {
 
         expect(mockNavigate).toHaveBeenCalledWith("/feed");
     });
+    
     
 
 });
