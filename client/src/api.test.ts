@@ -18,4 +18,20 @@ describe("API Calls", () => {
         const result = await createPost("New Title", "New Post");
         expect(result).toEqual(newPost);
     });
+
+    test("should return error message when invalid author type", async () => {
+        mock.onPost(`${BASE_URL}/post`).reply(400, "Bad POST call to /post --- author must be a of type number");
+
+        const result = await createPost("Test Title", "This is a test post");
+
+        expect(result).toEqual("Bad POST call to /post --- author must be a of type number");
+    });
+
+    test("should return error message when API returns 500 (server error)", async () => {
+        mock.onPost(`${BASE_URL}/post`).reply(500, "Internal Server Error");
+
+        const result = await createPost("Test Title", "This is a test post");
+
+        expect(result).toEqual("Internal Server Error");
+    });
 });

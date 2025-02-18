@@ -32,9 +32,8 @@ export async function createPost(title: string, text: string): Promise<Post | st
         }
         return response.data;
     } catch (error) {
-        if(error instanceof Error){
-            console.log("Failed creating a post: ", error.message);
-            return error.message;
+        if(axios.isAxiosError(error)){
+            return error.response?.data || `Error: ${error.message}`;
         }
         return "Something went wrong creating a post";
     }
