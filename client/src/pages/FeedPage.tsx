@@ -1,12 +1,10 @@
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { useState } from 'react'
-import { getPosts, Post } from "./api";
-import MainHeader from "./components/mainHeader";
-import "./feed.css";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import MainHeader from "../components/mainHeader";
+import "../styles/feed.css";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CreatePostIcon from "./assets/Pencil 01.svg";
+import CreatePostIcon from "../assets/Pencil 01.svg";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import FeedCard from "./components/feedCard";

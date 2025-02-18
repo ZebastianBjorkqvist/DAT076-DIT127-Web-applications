@@ -1,5 +1,5 @@
-import Header from "./components/loginHeader";
-import NewUser from "./components/newUser";
+import Header from "../components/loginHeader";
+import NewUser from "../components/newUser";
 import { Container } from "react-bootstrap";
 
 function CreateUser () {

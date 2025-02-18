@@ -1,8 +1,8 @@
 import { Container } from "react-bootstrap";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import Login from "./components/login.tsx";
-import Header from "./components/loginHeader.tsx";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../styles/App.css";
+import Login from "../components/login.tsx";
+import Header from "../components/loginHeader.tsx";
 
 function LoginPage() {
   return (
