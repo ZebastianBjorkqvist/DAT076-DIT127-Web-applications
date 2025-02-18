@@ -51,5 +51,28 @@ describe("CreatePost component", () => {
         expect(submitButton).not.toBeDisabled();
     });
 
+    test("loading state when submitting a post", async () => {
+        render(
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
+        );
+        expect(screen.queryByRole("status")).not.toBeInTheDocument(); /*check its no loading state before*/
+
+        const submitButton = screen.getByText("Submit Post");
+        const titleInput = screen.getByPlaceholderText("Title") as HTMLInputElement;
+        const contentInput = screen.getByPlaceholderText("Write your post here...") as HTMLInputElement;
+        fireEvent.change(titleInput, { target: { value: "Test Title" } });
+        fireEvent.change(contentInput, { target: { value: "Test Content" } });
+
+        fireEvent.click(submitButton);
+
+        const spinner = await screen.findByRole("status");
+        expect(spinner).toBeInTheDocument();
+
+    });
+
+
     
+
 });
