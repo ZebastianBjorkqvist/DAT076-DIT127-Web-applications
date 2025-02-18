@@ -9,20 +9,26 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
-import { Post } from '../../../server/src/model/post';
+import { Post } from "../../../server/src/model/post";
 import { getPosts } from "../api";
 
 const FeedPage = () => {
   const navigate = useNavigate();
 
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  const arr = {
+    posts: [
+      { title: "first post", text: "first text" },
+      { title: "second post", text: "second text" },
+    ],
+  };
 
   async function loadPosts() {
     try {
       const ts = await getPosts();
       setPosts(ts);
       console.log(posts);
-      
     } catch (error) {
       console.error("Failed to load posts:", error);
     }
@@ -45,10 +51,9 @@ const FeedPage = () => {
           <Col xs={8} className="p-4">
             <Container className="">
               <h2 className="header-text">Welcome to the feed!</h2>
-              <FeedCard />
-              <FeedCard />
-              <FeedCard />
-              <FeedCard />
+              {arr.posts.map((post) => (
+                <FeedCard title={post.title} description={post.text} />
+              ))}
             </Container>
           </Col>
           <Col xs={2} className="sidebar"></Col>
