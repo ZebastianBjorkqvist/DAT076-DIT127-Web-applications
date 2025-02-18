@@ -1,0 +1,108 @@
+:root {
+    /*List of colors in the color scheme as variables
+        we can ofc add more colors as needed*/
+    --colorDark:#0D090A;        /*darkest, almost black*/
+    --colorVibrant:#733148;     /*vibrant middle color (used in logo and icons)*/
+    --colorMild:#785964;        /*less saturated middle color*/
+    --colorLight:#E5DCDF;       /*Lightest, almost white*/
+    --color1:#c9babf;       /*button colors*/
+
+
+    --bs-btn-font-family:
+    
+
+}
+
+.size_and_colors{
+    height: 700px;
+    background-color: #f1f1f1;
+    padding: 0;
+    margin: 0;
+
+
+}
+.no-padding{
+    padding: 0;
+    margin: 0;
+}
+
+.header_colors{
+    color: var(--colorVibrant);
+    background-color: #E5DCDF;
+
+}
+
+.header-text{
+    font-size: xx-large;
+    color: #733148 !important;
+}
+
+.standard-font{
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+}
+
+
+.grid-container > div {
+    background-color: #f1f1f1;
+    color: var(--colorVibrant);
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .floating-icon {
+    position: fixed;
+    bottom: 50px; /* Distance from bottom */
+    right: 150px; /* Distance from right */
+    background-color: var(--colorMild); 
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .btn-custom {
+    background-color: var(--colorLight) !important;
+    border-color: var(--colorLight) !important;
+    color: var(--colorDark) !important;
+  }
+  
+  .btn-custom:hover {
+    background-color: var(--color1) !important;
+    border-color: var(--color1);
+  }
+  
+  .sidebar {
+    background-color:#f1f1f1;
+
+  }
+
+  .post-container{
+
+    background-color: var(--colorLight);
+  }
+
+  .post-card{
+    border: 4px solid #733148;
+    font-size: large;
+    color: #733148 !important;
+    margin: 20px;
+    background-color: #f1f1f1;
+  }
+
+  .post-card-header{
+    border: 2px solid #733148;
+    font-size: x-large;
+    color: #733148 !important;
+    padding: 0px;
+    margin: 10px;
+  }
+
+  .post-card-text{
+    padding: 0px;
+    margin: 10px;
+  }
+ 

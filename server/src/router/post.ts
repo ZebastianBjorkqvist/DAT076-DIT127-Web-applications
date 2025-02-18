@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
 import { Post } from "../model/post";
-import { User } from "../model/user";
 
 const postService: PostService = new PostService();
 
@@ -27,7 +26,7 @@ postRouter.post(
       {},
       {
         text: string;
-        author: User;
+        author: number;
         title: string;
       }
     >,
@@ -47,20 +46,11 @@ postRouter.post(
       }
 
       // Validera att author är ett objekt och har rätt User-struktur
-      if (
-        typeof author !== "object" ||
-        author === null ||
-        typeof author.id !== "number" ||
-        typeof author.firstName !== "string" ||
-        typeof author.lastName !== "string" ||
-        typeof author.email !== "string" ||
-        typeof author.password !== "string" ||
-        typeof author.userName !== "string"
-      ) {
+      if (typeof author !== "number") {
         res
           .status(400)
           .send(
-            `Bad POST call to ${req.originalUrl} --- author must be a valid User object`
+            `Bad POST call to ${req.originalUrl} --- author must be a of type number`
           );
         return;
       }
@@ -83,3 +73,8 @@ postRouter.post(
     }
   }
 );
+
+postRouter.delete("/reset", (req: Request, res: Response) => {
+  postService.clearPosts(); // This function should reset the list
+  res.status(200).send("Post list cleared");
+});
