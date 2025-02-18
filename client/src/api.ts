@@ -70,13 +70,13 @@ export async function createUser(
   }
 }
 
-export async function login(userOrEmail: string, password: string) {
+export async function login(username: string, password: string) {
   try {
     const response = await axios.post<User>(`${BASE_URL}/user/login`, {
-      userOrEmail: userOrEmail,
+      username: username,
       password: password,
     });
-    if (response.status !== 201) {
+    if (response.status !== 200) {
       throw new Error(response.statusText);
     }
     return response.data;

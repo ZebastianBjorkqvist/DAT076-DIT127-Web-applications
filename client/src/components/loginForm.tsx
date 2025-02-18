@@ -10,7 +10,6 @@ const LoginForm = () => {
   const [userOrEmail, setUserOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
-  
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -73,10 +72,10 @@ const LoginForm = () => {
             </Button>
           </div>
           {notification && (
-        <div className="alert alert-danger mt-3" role="alert">
-          {notification}
-        </div>
-      )}
+            <div className="alert alert-danger mt-3" role="alert">
+              {notification}
+            </div>
+          )}
         </Form.Group>
       </Form>
     </>

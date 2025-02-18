@@ -1,13 +1,10 @@
 import { User } from "../model/user";
-
 export class UserService {
   private user: User = {} as User;
 
-  async createUser(
-    email: string,
-    password: string,
-    username: string
-  ) {
+  users: User[] = [];
+
+  async createUser(email: string, password: string, username: string) {
     const user = {
       id: Date.now(),
       email: email,
@@ -15,7 +12,7 @@ export class UserService {
       username: username,
     };
 
-    this.user = user;
+    this.users.push(user);
     return user;
   }
 
@@ -23,11 +20,12 @@ export class UserService {
     return this.user;
   }
 
-  async login(userOrEmail:string, password:string) {
-    if ((userOrEmail === this.user.email || userOrEmail === this.user.username) && password === this.user.password) {
-      return true;
+  async findUser(usr: string, pass?: string): Promise<User | undefined> {
+    if (!pass) {
+      return this.users.find((user) => user.username === usr);
     }
-
-    return false;
+    return this.users.find(
+      (user) => user.username === usr && user.password === pass
+    );
   }
 }

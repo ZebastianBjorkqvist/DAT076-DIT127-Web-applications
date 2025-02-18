@@ -6,128 +6,103 @@ const userService: UserService = new UserService();
 
 export const userRouter: Router = express.Router();
 
-userRouter.get(
-  "/",
-  async (req: Request<{}, {}, {}>, res: Response<User | string>) => {
-    try {
-      const newUser = await userService.getUser();
-      res.status(201).send(newUser);
-    } catch (e: any) {
-      res.status(500).send(e.message);
-    }
+interface UserRequest extends Request {
+  body: { email: string; username: string; password: string };
+  session: any;
+}
+
+userRouter.get("/", async (req: UserRequest, res: Response) => {
+  try {
+    const newUser = await userService.getUser();
+    res.status(201).send(newUser);
+  } catch (e: any) {
+    res.status(500).send(e.message);
   }
-);
+});
 
-userRouter.post(
-  "/",
-  async (
-    req: Request<
-      {},
-      {},
-      {
-        email: string;
-        password: string;
-        username: string;
-      }
-    >,
-    res: Response<User | string>
-  ) => {
-    try {
-
-      const email = req.body.email;
-      if (typeof email !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof email}`
-          );
-        return;
-      }
-
-      const password = req.body.password;
-      if (typeof password !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof password}`
-          );
-        return;
-      }
-
-      const username = req.body.username;
-      if (typeof username !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof username}`
-          );
-        return;
-      }
-
-      const newUser = await userService.createUser(
-        email,
-        password,
-        username
-      );
-      res.status(201).send(newUser);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+userRouter.post("/user", async (req: UserRequest, res: Response) => {
+  try {
+    const email = req.body.email;
+    if (typeof email !== "string") {
+      res
+        .status(400)
+        .send(
+          `Bad PUT call to ${
+            req.originalUrl
+          } --- title has type ${typeof email}`
+        );
+      return;
     }
-  }
-);
 
-userRouter.post(
-  "/login",
-  async (
-    req: Request<
-      {},
-      {},
-      {
-        userOrEmail: string;
-        password: string;
-      }
-    >,
-    res: Response<boolean | string>
-  ) => {
-    try {
-
-      const userOrEmail = req.body.userOrEmail;
-      if (typeof userOrEmail !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof userOrEmail}`
-          );
-        return;
-      }
-
-      const password = req.body.password;
-      if (typeof password !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof password}`
-          );
-        return;
-      }
-
-      const isLoggedIn = await userService.login(
-        userOrEmail,
-        password,
-      );
-      res.status(201).send(isLoggedIn);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    const password = req.body.password;
+    if (typeof password !== "string") {
+      res
+        .status(400)
+        .send(
+          `Bad PUT call to ${
+            req.originalUrl
+          } --- title has type ${typeof password}`
+        );
+      return;
     }
+
+    const username = req.body.username;
+    if (typeof username !== "string") {
+      res
+        .status(400)
+        .send(
+          `Bad PUT call to ${
+            req.originalUrl
+          } --- title has type ${typeof username}`
+        );
+      return;
+    }
+
+    const newUser = await userService.createUser(email, password, username);
+    res.status(201).send(newUser);
+  } catch (e: any) {
+    res.status(500).send(e.message);
   }
-);
+});
+
+userRouter.post("/user/login", async (req: UserRequest, res: Response) => {
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (typeof username !== "string") {
+      res
+        .status(400)
+        .send(
+          `Bad PUT call to ${
+            req.originalUrl
+          } --- title has type ${typeof username}`
+        );
+      return;
+    }
+
+    if (typeof password !== "string") {
+      res
+        .status(400)
+        .send(
+          `Bad PUT call to ${
+            req.originalUrl
+          } --- title has type ${typeof password}`
+        );
+      return;
+    }
+
+    const user: User | undefined = await userService.findUser(
+      req.body.username,
+      req.body.password
+    );
+    if (!user) {
+      res.status(401).send("No such username or password");
+      return;
+    }
+    req.session.username = req.body.username; // Login
+    res.status(200).send("Logged in");
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
