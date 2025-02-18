@@ -4,8 +4,8 @@ axios.defaults.withCredentials = true
 
 export type Post = {
     id: number;
-    text: string;
     author: number;
+    text: string;
     title: string;
 }
 
@@ -20,6 +20,7 @@ const BASE_URL = "http://localhost:8080"
 
 export async function getPosts(): Promise<Post[]> {
     const response = await axios.get<Post[]>(`${BASE_URL}/post`)
+    console.log(response.data);
     return response.data
     
 }

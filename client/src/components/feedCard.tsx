@@ -17,7 +17,7 @@ function feedCard(props: any) {
       </Row>
 
       <Row className="post-card-text">
-        <text>{props.description}</text>
+        <p>{props.description}</p>
       </Row>
     </div>
   );

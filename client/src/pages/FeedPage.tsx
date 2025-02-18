@@ -17,12 +17,15 @@ const FeedPage = () => {
 
   const [posts, setPosts] = useState<Post[]>([]);
 
+  /*
   const arr = {
     posts: [
       { title: "first post", text: "first text" },
       { title: "second post", text: "second text" },
     ],
   };
+  */
+
 
   async function loadPosts() {
     try {
@@ -51,8 +54,8 @@ const FeedPage = () => {
           <Col xs={8} className="p-4">
             <Container className="">
               <h2 className="header-text">Welcome to the feed!</h2>
-              {arr.posts.map((post) => (
-                <FeedCard title={post.title} description={post.text} />
+              {posts.map((post) => (
+                <FeedCard  title={post.title} description={post.text} />
               ))}
             </Container>
           </Col>
