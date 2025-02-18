@@ -6,6 +6,7 @@ export default class NewUser extends Component {
     email: "",
     username: "",
     password: "",
+    notification:""
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,11 @@ export default class NewUser extends Component {
 
     try {
       await createUser(this.state.email, this.state.username, this.state.password);
+      this.setState({email:"", username:"", password:"",notification: "User created successfully!"})
     } catch (error) {
+      this.setState({
+        notification: "Failed to create user. Please try again.", // Set error message
+      });
       console.error("Failed to create user:", error);
     }
   };
@@ -70,6 +75,11 @@ export default class NewUser extends Component {
         <div>
           Already have an account? <a href="/">Login here</a>
         </div>
+        {this.state.notification && (
+          <div className="alert alert-info mt-3" role="alert">
+            {this.state.notification}
+          </div>
+        )}
       </>
     );
   }
