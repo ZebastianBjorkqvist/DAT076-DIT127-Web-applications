@@ -83,6 +83,37 @@ describe("CreatePost component", () => {
         //expect success alert to appear
         expect(await screen.findByText("Post submitted successfully!")).toBeInTheDocument();
     });
+
+    test("error alert should appear when post submission fails", async () => {
+        render(
+            <CreatePost />
+        );
+
+        const submitButton = screen.getByText("Submit Post");
+        const titleInput = screen.getByPlaceholderText("Title") as HTMLInputElement;
+        const contentInput = screen.getByPlaceholderText("Write your post here...") as HTMLInputElement;
+        fireEvent.change(titleInput, { target: { value: "Test Title" } });
+        fireEvent.change(contentInput, { target: { value: "Test Content" } });
+
+        mock.onPost(`${BASE_URL}/post`).reply(500);
+
+        fireEvent.click(submitButton);
+
+        expect(await screen.findByText("Something went wrong submitting a post")).toBeInTheDocument();
+    }
+    );
+
+    test("cancel button should navigate to /feed", () => {
+        render(
+            <CreatePost />
+        );
+
+        const cancelButton = screen.getByText("Cancel");
+
+        fireEvent.click(cancelButton);
+
+        expect(mockNavigate).toHaveBeenCalledWith("/feed");
+    });
     
 
 });

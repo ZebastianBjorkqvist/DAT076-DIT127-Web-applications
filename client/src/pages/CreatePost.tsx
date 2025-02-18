@@ -37,7 +37,6 @@ export function CreatePost() {
       <div className="container mt-5 create-post-container text-start">
         <h1 className="mb-4">Create Post</h1>
 
-        
         {alert.message && (
           <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
             {alert.message}
