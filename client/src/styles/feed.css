@@ -41,22 +41,6 @@
     font-family: 'Lucida Sans', Verdana, sans-serif;
 }
 
-.item1 { grid-area: header;}
-.item2 { grid-area: left; }
-.item3 { grid-area: main; }
-.item4 { grid-area: right; }
-.item5 { grid-area: footer; }
-
-.grid-container {
-    display: grid;
-    grid-template-areas:
-    'header header header header header header'
-    'left main main main main right'
-    'footer footer footer footer footer footer';
-    gap: 10px;
-    padding: 10px;
-    background-color: #E5DCDF;
-} 
 
 .grid-container > div {
     background-color: #f1f1f1;
@@ -69,7 +53,7 @@
   .floating-icon {
     position: fixed;
     bottom: 50px; /* Distance from bottom */
-    right: 200px; /* Distance from right */
+    right: 150px; /* Distance from right */
     background-color: var(--colorMild); 
     width: 50px;
     height: 50px;
@@ -91,4 +75,7 @@
     border-color: var(--color1);
   }
   
+  .sidebar {
+    background-color: var(--colorLight);
+  }
  
