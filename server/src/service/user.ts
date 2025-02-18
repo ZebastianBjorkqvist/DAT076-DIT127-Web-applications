@@ -22,4 +22,12 @@ export class UserService {
   async getUser() {
     return this.user;
   }
+
+  async login(userOrEmail:string, password:string) {
+    if ((userOrEmail === this.user.email || userOrEmail === this.user.username) && password === this.user.password) {
+      return true;
+    }
+
+    return false;
+  }
 }

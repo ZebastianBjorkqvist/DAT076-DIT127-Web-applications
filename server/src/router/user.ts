@@ -81,3 +81,53 @@ userRouter.post(
     }
   }
 );
+
+userRouter.post(
+  "/login",
+  async (
+    req: Request<
+      {},
+      {},
+      {
+        userOrEmail: string;
+        password: string;
+      }
+    >,
+    res: Response<boolean | string>
+  ) => {
+    try {
+
+      const userOrEmail = req.body.userOrEmail;
+      if (typeof userOrEmail !== "string") {
+        res
+          .status(400)
+          .send(
+            `Bad PUT call to ${
+              req.originalUrl
+            } --- title has type ${typeof userOrEmail}`
+          );
+        return;
+      }
+
+      const password = req.body.password;
+      if (typeof password !== "string") {
+        res
+          .status(400)
+          .send(
+            `Bad PUT call to ${
+              req.originalUrl
+            } --- title has type ${typeof password}`
+          );
+        return;
+      }
+
+      const isLoggedIn = await userService.login(
+        userOrEmail,
+        password,
+      );
+      res.status(201).send(isLoggedIn);
+    } catch (e: any) {
+      res.status(500).send(e.message);
+    }
+  }
+);

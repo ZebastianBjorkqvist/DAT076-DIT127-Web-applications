@@ -56,3 +56,19 @@ export async function createUser(email: string, password:string, username:string
         return "Something went wrong creating a user";
     }
 }
+
+export async function login(userOrEmail:string, password: string) {
+    try{
+        const response = await axios.post<User>(`${BASE_URL}/user/login`, {userOrEmail: userOrEmail, password:password});
+        if (response.status !== 201) {
+            throw new Error(response.statusText);
+        }
+        return response.data;
+    } catch (error) {
+        if(error instanceof Error){
+            console.log("Failed loggin in: ", error.message);
+            return error.message;
+        }
+        return "Something went wrong while logging in";
+    }
+}

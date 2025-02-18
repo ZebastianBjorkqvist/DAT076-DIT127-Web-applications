@@ -1,6 +1,6 @@
 import Header from "../components/loginHeader";
-import NewUser from "../components/newUser";
 import { Container } from "react-bootstrap";
+import CreateUserForm from '../components/createUserForm';
 
 function CreateUser () {
     return (
@@ -11,7 +11,7 @@ function CreateUser () {
           <div className="App">
             <div className="auth-wrapper">
               <div className="auth-inner">
-                <NewUser></NewUser>
+                <CreateUserForm></CreateUserForm>
               </div>
             </div>
           </div>
