@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 
 export const app = express();
 
-app.use(express.json());
 dotenv.config();
 if (!process.env.SESSION_SECRET) {
   console.log("Could not find SESSION_SECRET in .env file");
@@ -26,5 +25,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+
 app.use("/post", postRouter);
 app.use("/user", userRouter);

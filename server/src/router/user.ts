@@ -29,7 +29,7 @@ userRouter.post("/user", async (req: UserRequest, res: Response) => {
         .send(
           `Bad PUT call to ${
             req.originalUrl
-          } --- title has type ${typeof email}`
+          } --- email has type ${typeof email}`
         );
       return;
     }
@@ -41,7 +41,7 @@ userRouter.post("/user", async (req: UserRequest, res: Response) => {
         .send(
           `Bad PUT call to ${
             req.originalUrl
-          } --- title has type ${typeof password}`
+          } --- password has type ${typeof password}`
         );
       return;
     }
@@ -53,7 +53,7 @@ userRouter.post("/user", async (req: UserRequest, res: Response) => {
         .send(
           `Bad PUT call to ${
             req.originalUrl
-          } --- title has type ${typeof username}`
+          } --- username has type ${typeof username}`
         );
       return;
     }
@@ -65,18 +65,17 @@ userRouter.post("/user", async (req: UserRequest, res: Response) => {
   }
 });
 
-userRouter.post("/user/login", async (req: UserRequest, res: Response) => {
+userRouter.post("/login", async (req: UserRequest, res: Response) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
-
     if (typeof username !== "string") {
       res
         .status(400)
         .send(
           `Bad PUT call to ${
             req.originalUrl
-          } --- title has type ${typeof username}`
+          } --- username has type ${typeof username}`
         );
       return;
     }
@@ -87,7 +86,7 @@ userRouter.post("/user/login", async (req: UserRequest, res: Response) => {
         .send(
           `Bad PUT call to ${
             req.originalUrl
-          } --- title has type ${typeof password}`
+          } --- password has type ${typeof password}`
         );
       return;
     }
@@ -100,7 +99,7 @@ userRouter.post("/user/login", async (req: UserRequest, res: Response) => {
       res.status(401).send("No such username or password");
       return;
     }
-    req.session.username = req.body.username; // Login
+    req.session.username = req.body.username;
     res.status(200).send("Logged in");
   } catch (e: any) {
     res.status(500).send(e.message);

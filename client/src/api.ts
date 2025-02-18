@@ -70,21 +70,23 @@ export async function createUser(
   }
 }
 
-export async function login(username: string, password: string) {
+export async function login(username: string, password: string): Promise<void> {
   try {
+    console.log(username);
     const response = await axios.post<User>(`${BASE_URL}/user/login`, {
-      username: username,
-      password: password,
+      username,
+      password,
     });
+
+    console.log(response.status);
     if (response.status !== 200) {
       throw new Error(response.statusText);
     }
-    return response.data;
   } catch (error) {
     if (error instanceof Error) {
-      console.log("Failed loggin in: ", error.message);
-      return error.message;
+      console.error("Failed logging in:", error.message);
+      throw error;
     }
-    return "Something went wrong while logging in";
+    throw new Error("Unknown login error");
   }
 }
