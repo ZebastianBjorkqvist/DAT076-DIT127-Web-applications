@@ -1,39 +1,42 @@
 import { useNavigate } from "react-router-dom";
-
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import "../styles/index.css";
 const LoginForm = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <form>
-        <div className="mb-3">
-          <label>Username </label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter your username"
-          />
-        </div>
-        <div className="mb-3">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Enter password"
-          />
-        </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Username</Form.Label>
+          <Form.Control type="email" placeholder="Enter username" />
+        </Form.Group>
 
-        <div className="d-grid">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={() => navigate("/feed")}
-          >
-            Login
-          </button>
-        </div>
-      </form>
-      <a href="/newUser">Create a new account</a>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control type="password" placeholder="Password" />
+        </Form.Group>
+
+        <Form.Group className="my-2 justify-content-md-end">
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            <Button
+              variant="secondary"
+              type="submit"
+              onClick={() => navigate("/feed")}
+            >
+              Login
+            </Button>
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => navigate("/newUser")}
+            >
+              Create user
+            </Button>
+          </div>
+        </Form.Group>
+      </Form>
     </>
   );
 };

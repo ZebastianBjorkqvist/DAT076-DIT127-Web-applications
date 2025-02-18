@@ -38,20 +38,20 @@ const FeedPage = () => {
         <MainHeader />
       </Container>
 
-      <Container fluid className="mt-3">
+      <Container fluid className="mt-3 post-container">
         <Row>
           {/* Full-width feed content */}
           <Col xs={2} className="sidebar"></Col>
           <Col xs={8} className="p-4">
-            <Container>
+            <Container className="">
               <h2 className="header-text">Welcome to the feed!</h2>
               <FeedCard />
+              <FeedCard />
+              <FeedCard />
+              <FeedCard />
             </Container>
-            {posts.map((p) => (
-              <div key={p.id}>{p.author}</div>
-            ))}
-            <Col xs={2} className="sidebar"></Col>
           </Col>
+          <Col xs={2} className="sidebar"></Col>
         </Row>
       </Container>
 
