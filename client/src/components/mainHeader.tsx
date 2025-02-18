@@ -1,7 +1,7 @@
 import logoIcon from "../assets/logo-icon.svg";
 import Logout from "../assets/Logout 02.svg";
 import UserIcon from "../assets/User Profile 02.svg";
-import "../feed.css";
+import "../styles/feed.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
 

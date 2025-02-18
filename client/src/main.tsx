@@ -1,11 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./styles/index.css";
 import {BrowserRouter, Routes, Route} from "react-router"
-import FeedPage from "./feedPage.tsx";
-import LoginPage from "./LoginPage.tsx";
-import { CreatePost } from "./createPost.tsx";
-import CreateUser from "./createUser.tsx";
+import FeedPage from "./pages/FeedPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import { CreatePost } from "./pages/CreatePost.tsx";
+import CreateUser from "./pages/CreateUser.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
