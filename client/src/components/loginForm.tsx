@@ -7,13 +7,13 @@ import { login } from "../api";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [userOrEmail, setUserOrEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (name === "userOrEmail") setUserOrEmail(value);
+    if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
   };
 
@@ -21,8 +21,13 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      await login(userOrEmail, password); // No return value, just waits for completion
-      navigate("/feed"); // Navigate on success
+      const isLoggedIn = await login(username, password);
+      if (isLoggedIn) {
+        navigate("/feed"); // Navigate to the feed page on successful login
+      } else {
+        setNotification("Wrong username or password");
+        console.error("Login failed");
+      }
     } catch (error) {
       setNotification("Wrong username/email or password");
       console.error("Login failed:", error);
@@ -33,12 +38,12 @@ const LoginForm = () => {
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label>Username or Email</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter username or email"
-            name="userOrEmail"
-            value={userOrEmail}
+            placeholder="Enter your username"
+            name="username"
+            value={username}
             onChange={handleChange}
           />
         </Form.Group>

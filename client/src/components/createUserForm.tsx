@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { createUser } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const CreateUserForm = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -23,6 +25,7 @@ const CreateUserForm = () => {
       setUsername("");
       setPassword("");
       setNotification("User created successfully!");
+      navigate("/");
     } catch (error) {
       setNotification("Failed to create user. Please try again.");
       console.error("Failed to create user:", error);
