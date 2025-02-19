@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (name === "userOrEmail") setUsername(value);
+    if (name === "username") setUsername(value);
     if (name === "password") setPassword(value);
   };
 
