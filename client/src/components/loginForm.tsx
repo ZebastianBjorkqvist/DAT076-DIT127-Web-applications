@@ -21,15 +21,10 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      const isLoggedIn = await login(username, password);
-      if (isLoggedIn) {
-        navigate("/feed"); // Navigate to the feed page on successful login
-      } else {
-        setNotification("Wrong username or password");
-        console.error("Login failed");
-      }
+      await login(username, password);
+      navigate("/feed"); // Navigate to the feed page on successful login
     } catch (error) {
-      setNotification("Wrong username/email or password");
+      setNotification("Wrong username or password");
       console.error("Login failed:", error);
     }
   };
