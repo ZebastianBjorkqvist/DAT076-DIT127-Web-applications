@@ -72,19 +72,16 @@ export async function createUser(
 
 export async function login(username: string, password: string): Promise<void> {
   try {
-    console.log(username);
     const response = await axios.post<User>(`${BASE_URL}/user/login`, {
       username,
       password,
     });
 
-    console.log(response.status);
     if (response.status !== 200) {
       throw new Error(response.statusText);
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error("Failed logging in:", error.message);
       throw error;
     }
     throw new Error("Unknown login error");
