@@ -25,7 +25,6 @@ const LoginForm = () => {
       navigate("/feed"); // Navigate to the feed page on successful login
     } catch (error) {
       setNotification("Wrong username or password");
-      console.error("Login failed:", error);
     }
   };
 
