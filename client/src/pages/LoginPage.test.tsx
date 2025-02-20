@@ -14,7 +14,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 describe("LoginPage", () => {
   beforeEach(() => {});
 
-  test("renders form", () => {
+  it("renders form", () => {
     render(
       <MemoryRouter>
         <LoginPage />
