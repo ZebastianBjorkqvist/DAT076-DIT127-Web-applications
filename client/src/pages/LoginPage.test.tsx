@@ -56,10 +56,4 @@ describe("LoginPage", () => {
       );
     });
   });
-
-  it("logs rejects an incorrect password", () => {});
-
-  it("logs rejects an invalid user", () => {});
-
-  it("logs rejects an incorrect password and an incorrect user in the same way", () => {});
 });
