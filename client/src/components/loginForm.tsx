@@ -67,8 +67,9 @@ const LoginForm = () => {
     <>
       <Form onSubmit={(e) => e.preventDefault()}>
         <Form.Group className="mb-3">
-          <Form.Label>Username</Form.Label>
+          <label htmlFor="username">Username</label>
           <Form.Control
+            id="username"
             type="text"
             placeholder="Enter your username"
             name="username"
@@ -78,8 +79,9 @@ const LoginForm = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
+          <label htmlFor="password">Password</label>
           <Form.Control
+            id="password"
             type="password"
             placeholder="Password"
             name="password"
@@ -91,7 +93,7 @@ const LoginForm = () => {
         <Form.Group className="my-2 justify-content-md-end">
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
             <Button variant="secondary" type="button" onClick={handleSubmit}>
-              Log In
+              Log in
             </Button>
             <Button
               variant="outline-secondary"

@@ -20,8 +20,8 @@ describe("LoginPage", () => {
         <LoginPage />
       </MemoryRouter>
     );
-    const loginButton = screen.getByRole("button", { name: "Login" });
-    const usernameField = screen.getByRole("textbox", { name: "" });
+    const loginButton = screen.getByRole("button", { name: "Log in" });
+    const usernameField = screen.getByLabelText("Username");
     const pwdField = screen.getByLabelText("Password");
     const createButton = screen.getByRole("button", { name: "Create user" });
 
@@ -37,8 +37,8 @@ describe("LoginPage", () => {
         <LoginPage />
       </MemoryRouter>
     );
-    const loginButton = screen.getByRole("button", { name: "Login" });
-    const usernameField = screen.getByRole("textbox", { name: "" });
+    const loginButton = screen.getByRole("button", { name: "Log in" });
+    const usernameField = screen.getByLabelText("Username");
     const pwdField = screen.getByLabelText("Password");
     await act(async () => {
       fireEvent.change(await usernameField, { target: { value: "zeb" } });
