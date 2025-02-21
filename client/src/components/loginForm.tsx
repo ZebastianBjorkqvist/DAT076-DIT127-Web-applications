@@ -24,7 +24,8 @@ const LoginForm = () => {
     if (name === "password") setPassword(value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event?: React.FormEvent) => {
+    if (event) event.preventDefault();
     let newErrors: Errors = {};
 
     if (username.length === 0) {
@@ -65,7 +66,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Form onSubmit={(e) => e.preventDefault()}>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <label htmlFor="username">Username</label>
           <Form.Control
@@ -92,7 +93,7 @@ const LoginForm = () => {
 
         <Form.Group className="my-2 justify-content-md-end">
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <Button variant="secondary" type="button" onClick={handleSubmit}>
+            <Button variant="secondary" type="submit" onClick={handleSubmit}>
               Log in
             </Button>
             <Button
