@@ -70,20 +70,26 @@ export async function createUser(
   }
 }
 
-export async function login(username: string, password: string): Promise<void> {
-  try {
-    const response = await axios.post<User>(`${BASE_URL}/user/login`, {
-      username,
-      password,
-    });
+export enum LoginResult {
+  SUCCESS,
+  INVALID_CREDENTIALS,
+  SERVER_ERROR,
+}
 
-    if (response.status !== 200) {
-      throw new Error(response.statusText);
+export async function login(
+  username: string,
+  password: string
+): Promise<LoginResult> {
+  try {
+    await axios.post(`${BASE_URL}/user/login`, {
+      username: username,
+      password: password,
+    });
+    return LoginResult.SUCCESS;
+  } catch (e: any) {
+    if (e.response.status === 401) {
+      return LoginResult.INVALID_CREDENTIALS;
     }
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("Unknown login error");
+    return LoginResult.SERVER_ERROR;
   }
 }
