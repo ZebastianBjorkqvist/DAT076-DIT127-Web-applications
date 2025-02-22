@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainHeader from '../components/mainHeader';
 import '../styles/CreatePost.css'
-import { useNavigate } from 'react-router-dom'
-import { createPost} from '../api';
+import { redirect, useNavigate } from 'react-router-dom'
+import { checkAuth, createPost} from '../api';
+import { Col, Container, Row } from 'react-bootstrap';
 
 export function CreatePost() {
   const [postContent, setPostContent] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [alert, setAlert] = useState({message: "", type: ""});
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
 
   const handlePostSubmit = async () => {
@@ -30,6 +33,37 @@ export function CreatePost() {
         setAlert({ type: "danger", message: "Something went wrong submitting a post" });
       });
   };
+
+  useEffect(() => {
+    checkAuth().then((isAuthenticated) => {
+      if (!isAuthenticated) {
+        setIsAuthenticated(false);
+        setMessage("You need to be logged in to access this page. Redirecting...");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } 
+    });
+  }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="feed-page size_and_colors w-100">
+        <Container fluid className="sticky-top">
+          <MainHeader />
+        </Container>
+        <Container fluid className="mt-3 post-container">
+          <Row>
+            <Col xs={12} className="p-4">
+              <Container className="">
+                <h2 className="header-text">{message}</h2>
+              </Container>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <>

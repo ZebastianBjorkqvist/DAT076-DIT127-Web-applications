@@ -93,3 +93,14 @@ export async function login(
     return LoginResult.SERVER_ERROR;
   }
 }
+
+export async function checkAuth(): Promise<boolean> {
+  try {
+    const response = await axios.get(`${BASE_URL}/user/check-auth`, {
+      withCredentials: true,
+    });
+    return response.status === 200;
+  } catch (e: any) {
+    return false;
+  }
+}

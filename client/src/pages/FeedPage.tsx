@@ -10,11 +10,12 @@ import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
 import { Post } from "../../../server/src/model/post";
-import { getPosts } from "../api";
+import { checkAuth, getPosts } from "../api";
 
 const FeedPage = () => {
   const navigate = useNavigate();
-
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
 
   /*
@@ -38,8 +39,37 @@ const FeedPage = () => {
   }
 
   useEffect(() => {
-    loadPosts();
+    checkAuth().then((isAuthenticated) => {
+      if (!isAuthenticated) {
+        setIsAuthenticated(false);
+        setMessage("You need to be logged in to access this page. Redirecting...");
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } else {
+        loadPosts();
+      }
+    });
   }, []);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="feed-page size_and_colors w-100">
+        <Container fluid className="sticky-top">
+          <MainHeader />
+        </Container>
+        <Container fluid className="mt-3 post-container">
+          <Row>
+            <Col xs={12} className="p-4">
+              <Container className="">
+                <h2 className="header-text">{message}</h2>
+              </Container>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 
   return (
     <div className="feed-page size_and_colors w-100">
