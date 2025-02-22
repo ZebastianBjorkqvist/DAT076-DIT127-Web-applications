@@ -104,3 +104,7 @@ export async function checkAuth(): Promise<boolean> {
     return false;
   }
 }
+
+export async function logout(): Promise<void> {
+  await axios.post(`${BASE_URL}/user/logout`);
+}

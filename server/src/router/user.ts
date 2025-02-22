@@ -113,3 +113,12 @@ userRouter.get("/check-auth", (req: UserRequest, res: Response) => {
     res.status(401).send("Not authenticated");
   }
 });
+
+userRouter.post("/logout", (req: UserRequest, res: Response) => {
+  req.session.destroy((err: any) => {
+    if (err) {
+      return res.status(500).send("Failed to log out");
+    }
+    res.status(200).send("Logged out");
+  });
+});
