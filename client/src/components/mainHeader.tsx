@@ -12,12 +12,10 @@ function MainHeader() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await logout();
+    const success = await logout();
+    if (success) {
       navigate("/"); 
-    } catch (error) {
-      console.error("Failed to log out:", error);
-    }
+    } 
   };
 
 	return (
