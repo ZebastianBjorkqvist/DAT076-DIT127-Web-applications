@@ -23,7 +23,7 @@ function MainHeader() {
 
         {/* Right side: Icons */}
         <Nav className="ms-auto">
-          <Nav.Link href="./feed">
+          <Nav.Link href="./profile">
 					<img
             src={UserIcon}
             alt="User icon"

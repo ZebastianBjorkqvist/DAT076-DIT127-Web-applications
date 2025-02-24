@@ -6,6 +6,7 @@ import FeedPage from "./pages/FeedPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import { CreatePost } from "./pages/CreatePost.tsx";
 import CreateUser from "./pages/CreateUser.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<LoginPage/>}/>
         <Route path="/newUser" element={<CreateUser />}/>
         <Route path="/newPost" element={<CreatePost />}/>
+        <Route path="/profile" element={<ProfilePage/>}/>
       </Routes>
     </BrowserRouter>
   </StrictMode>
