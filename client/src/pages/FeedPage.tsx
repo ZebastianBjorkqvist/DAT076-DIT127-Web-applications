@@ -52,7 +52,7 @@ const FeedPage = () => {
           {/* Full-width feed content */}
           <Col xs={2} className="sidebar"></Col>
           <Col xs={8} className="p-4">
-            <Container className="">
+            <Container>
               <h2 className="header-text">Welcome to the feed!</h2>
               {posts.map((post) => (
                 <FeedCard  title={post.title} description={post.text} />
@@ -65,7 +65,7 @@ const FeedPage = () => {
 
       {/* floating icon for create post in bottom right corner */}
       <div className="floating-icon">
-        <Button className="btn-custom" onClick={() => navigate("/newPost")}>
+        <Button className="btn-custom" onClick={() => navigate("/newPost")} data-testid="create-post-btn" >
           <img src={CreatePostIcon} alt="Create Post" />
         </Button>
       </div>
