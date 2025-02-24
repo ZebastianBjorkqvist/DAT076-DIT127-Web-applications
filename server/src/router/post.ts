@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
 import { Post } from "../model/post";
+import { isAuthenticated } from "../middleware/authMiddleware";
 
 const postService: PostService = new PostService();
 
@@ -8,6 +9,7 @@ export const postRouter: Router = express.Router();
 
 postRouter.get(
   "/",
+  isAuthenticated,
   async (req: Request<{}, {}, {}>, res: Response<Post[] | String>) => {
     try {
       const posts = await postService.getPosts();
@@ -20,6 +22,7 @@ postRouter.get(
 
 postRouter.post(
   "/",
+  isAuthenticated,
   async (
     req: Request<
       {},

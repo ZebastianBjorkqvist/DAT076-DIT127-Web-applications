@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import MainHeader from '../components/mainHeader';
 import '../styles/CreatePost.css'
-import { redirect, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { checkAuth, createPost} from '../api';
 import { Col, Container, Row } from 'react-bootstrap';
 
