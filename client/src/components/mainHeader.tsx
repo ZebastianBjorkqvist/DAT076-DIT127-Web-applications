@@ -1,12 +1,23 @@
+import { logout } from "../api";
 import logoIcon from "../assets/logo-icon.svg";
 import Logout from "../assets/Logout 02.svg";
 import UserIcon from "../assets/User Profile 02.svg";
 import "../styles/feed.css";
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 
 
 function MainHeader() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const success = await logout();
+    if (success) {
+      navigate("/"); 
+    } 
+  };
+
 	return (
     <Navbar className="p-3 header_colors w-100 no-padding standard-font" >
       <Container>
@@ -29,7 +40,7 @@ function MainHeader() {
             alt="User icon"
           />
           </Nav.Link>
-          <Nav.Link href="./">
+          <Nav.Link onClick={handleLogout}>
 					<img
             src={Logout}
             alt="Log-out icon"

@@ -105,3 +105,20 @@ userRouter.post("/login", async (req: UserRequest, res: Response) => {
     res.status(500).send(e.message);
   }
 });
+
+userRouter.get("/check-auth", (req: UserRequest, res: Response) => {
+  if (req.session.username) {
+    res.status(200).send({ username: req.session.username });
+  } else {
+    res.status(401).send("Not authenticated");
+  }
+});
+
+userRouter.post("/logout", (req: UserRequest, res: Response) => {
+  req.session.destroy((err: any) => {
+    if (err) {
+      return res.status(500).send("Failed to log out");
+    }
+    res.status(200).send("Logged out");
+  });
+});
