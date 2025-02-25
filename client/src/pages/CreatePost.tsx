@@ -3,7 +3,7 @@ import MainHeader from '../components/mainHeader';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
 import { checkAuth, createPost} from '../api';
-import { Col, Container, Row } from 'react-bootstrap';
+import RedirectComponent from '../components/redirectComponent';
 
 export function CreatePost() {
   const [postContent, setPostContent] = useState("");
@@ -39,33 +39,11 @@ export function CreatePost() {
       if (!isAuthenticated) {
         setIsAuthenticated(false);
         setMessage("You need to be logged in to access this page. Redirecting...");
-        setTimeout(() => {
-          navigate("/");
-        }, 3000);
       } 
     });
   }, []);
 
-  if (!isAuthenticated) {
-    return (
-      <div className="feed-page size_and_colors w-100">
-        <Container fluid className="sticky-top">
-          <MainHeader />
-        </Container>
-        <Container fluid className="mt-3 post-container">
-          <Row>
-            <Col xs={12} className="p-4">
-              <Container className="">
-                <h2 className="header-text">{message}</h2>
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    );
-  }
-
-  return (
+  return isAuthenticated ? (
     <>
       <MainHeader />
       <div className="container mt-5 create-post-container text-start">
@@ -109,7 +87,8 @@ export function CreatePost() {
         </div>
       </div>
     </>
-  );
+  ):
+  <RedirectComponent message={message} url="" />;
 }
 
 export default CreatePost;
