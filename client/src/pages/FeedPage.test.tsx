@@ -8,11 +8,13 @@ import axios from "axios";
 import FeedPage from "./FeedPage";
 import { MemoryRouter } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getPosts } from "../api";
+import { getPosts, checkAuth, logout } from "../api";
 
 //Mock-API
 jest.mock("../api", () => ({
     getPosts: jest.fn(), 
+    checkAuth: jest.fn(),
+    logout: jest.fn(),
 }));
 
 //Mock-navigate
@@ -24,8 +26,24 @@ const mockNavigate = jest.fn();
 (useNavigate as jest.Mock).mockReturnValue(mockNavigate); //to change the type of the mock to a function, prevents errors
 
 
+
 describe("Navigation works from the feed page", () => {
+
+    let mock: MockAdapter;
+
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+      (checkAuth as jest.Mock).mockResolvedValueOnce(true)
+  
+    });
+  
+    afterEach(() => {
+      mock.reset();
+    });
+
     test("Create Post button navigates to new post page", () => {
+        (checkAuth as jest.Mock).mockResolvedValueOnce(true)
+
         render(
           <MemoryRouter>
             <FeedPage />
@@ -46,7 +64,7 @@ describe("Navigation works from the feed page", () => {
 
     });
 
-    test("Navbar sign out button navigates to log in page", () => {
+    test("Navbar logo button reloads feedpage", () => {
         render(
             <MemoryRouter>
               <FeedPage />
@@ -55,6 +73,7 @@ describe("Navigation works from the feed page", () => {
       
           // Find the button for creating a post
           const LogoButton = screen.getByTestId("logo-btn");
+          
   
           // Click the button
           fireEvent.click(LogoButton);
@@ -67,7 +86,7 @@ describe("Navigation works from the feed page", () => {
 
     })
 
-    test("Navbar logo button reloads feedpage", () => {
+    test("Navbar profile button navigates to profile page", () => {
         render(
             <MemoryRouter>
               <FeedPage />
@@ -83,12 +102,12 @@ describe("Navigation works from the feed page", () => {
           // Wait for navigation to be triggered
           waitFor(() => {
           expect(mockNavigate).toHaveBeenCalledTimes(1);
-          expect(mockNavigate).toHaveBeenCalledWith("/feed");
+          expect(mockNavigate).toHaveBeenCalledWith("/profile");
         });
         
     })
 
-    test("Navbar profile button navigates to profile page", () => {
+    test("Navbar sign out button navigates to log in page", () => {
         render(
             <MemoryRouter>
               <FeedPage />
@@ -97,6 +116,7 @@ describe("Navigation works from the feed page", () => {
       
           // Find the button for creating a post
           const LogOutButton = screen.getByTestId("log-out-btn");
+          (logout as jest.Mock).mockResolvedValueOnce(true);
   
           // Click the button
           fireEvent.click(LogOutButton);
@@ -114,15 +134,17 @@ describe("Navigation works from the feed page", () => {
 
 
 describe("FeedPage Rendering Tests", () => {
-  let mock: MockAdapter;
+    let mock: MockAdapter;
 
-  beforeEach(() => {
-    mock = new MockAdapter(axios);
-  });
-
-  afterEach(() => {
-    mock.reset();
-  });
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+      (checkAuth as jest.Mock).mockResolvedValueOnce(true)
+  
+    });
+  
+    afterEach(() => {
+      mock.reset();
+    });
 
   test("Checks rendering of feedpage when the post-connection works", async () => {
     const mockPosts = [
@@ -131,6 +153,7 @@ describe("FeedPage Rendering Tests", () => {
     ];
 
     (getPosts as jest.Mock).mockResolvedValueOnce(mockPosts);
+    
 
     render(
       <MemoryRouter>
