@@ -4,8 +4,8 @@ import "../styles/App.css";
 import Login from "../components/loginForm.tsx";
 import Header from "../components/loginHeader.tsx";
 import { checkAuth } from "../api";
-import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router";
+import { useEffect} from "react";
+import {  useNavigate } from "react-router";
 
 
 function LoginPage() {  

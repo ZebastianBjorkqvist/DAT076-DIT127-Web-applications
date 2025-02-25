@@ -10,12 +10,9 @@ import { MemoryRouter } from "react-router";
 import { checkAuth, createPost } from "../api";
 
 //Mock-API
-
 jest.mock("../api", () => ({
-
     checkAuth: jest.fn(),
     createPost: jest.fn(),
-
 }));
 
 
@@ -127,8 +124,6 @@ describe("CreatePost component", () => {
         const contentInput = screen.getByPlaceholderText("Write your post here...") as HTMLInputElement;
         fireEvent.change(titleInput, { target: { value: "Test Title" } });
         fireEvent.change(contentInput, { target: { value: "Test Content" } });
-
-        //mock.onPost(`${BASE_URL}/post`).reply(500);
 
         fireEvent.click(submitButton);
 

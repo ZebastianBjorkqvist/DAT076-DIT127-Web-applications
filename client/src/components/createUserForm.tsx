@@ -70,13 +70,13 @@ const CreateUserForm = () => {
           />
         </div>
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" data-testid = "create-user-btn">
             Create user
           </button>
         </div>
       </form>
       <div>
-        Already have an account? <a href="/">Login here</a>
+        Already have an account? <a href="/" data-testid = "login-btn">Login here</a>
       </div>
       {notification && (
         <div className="alert alert-info mt-3" role="alert">
