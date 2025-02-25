@@ -20,56 +20,32 @@ postRouter.get(
   }
 );
 
+interface CreatePostRequest extends Request {
+  body: { text: string; title: string };
+  session: any;
+}
+
 postRouter.post(
   "/",
   isAuthenticated,
-  async (
-    req: Request<
-      {},
-      {},
-      {
-        text: string;
-        author: number;
-        title: string;
-      }
-    >,
-    res: Response<Post | string>
-  ) => {
+  async (req: CreatePostRequest, res: Response<Post | string>) => {
     try {
-      const { text, author, title } = req.body;
+      if (!req.session.username) {
+        res.status(401).send("Not logged in");
+        return;
+      }
+      const text = req.body.text;
       if (typeof text !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- text has type ${typeof text}`
-          );
+        res.status(400).send("description should be a string");
         return;
       }
-
-      // Validera att author är ett objekt och har rätt User-struktur
-      if (typeof author !== "number") {
-        res
-          .status(400)
-          .send(
-            `Bad POST call to ${req.originalUrl} --- author must be a of type number`
-          );
-        return;
-      }
-
+      const title = req.body.title;
       if (typeof title !== "string") {
-        res
-          .status(400)
-          .send(
-            `Bad PUT call to ${
-              req.originalUrl
-            } --- title has type ${typeof title}`
-          );
+        res.status(400).send("title should be a string");
         return;
       }
 
-      const newPost = await postService.createPost(text, author, title);
+      const newPost = await postService.createPost(text, req.session.id, title);
       res.status(201).send(newPost);
     } catch (e: any) {
       res.status(500).send(e.message);
