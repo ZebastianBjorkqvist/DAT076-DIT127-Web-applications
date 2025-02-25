@@ -6,6 +6,7 @@ import CreatePost from "./CreatePost";
 import { render, screen, fireEvent } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
+import { MemoryRouter } from "react-router";
 
 //Mock-API
 const mock = new MockAdapter(axios);
@@ -23,7 +24,10 @@ jest.mock("react-router-dom", () => ({
 describe("CreatePost component", () => {
     test("renders form correctly", () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
+
         );
 
         // Check for input fields and buttons
@@ -35,7 +39,9 @@ describe("CreatePost component", () => {
 
     test("disables submit button when input fields are empty", () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -45,7 +51,9 @@ describe("CreatePost component", () => {
 
     test("enables submit button when input fields are filled", () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -62,7 +70,9 @@ describe("CreatePost component", () => {
 
     test("submitting a post test: succeful alert should appear, inputs should be cleaned", async () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -90,7 +100,9 @@ describe("CreatePost component", () => {
 
     test("error alert should appear when post submission fails", async () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
         );
 
         const submitButton = screen.getByText("Submit Post");
@@ -109,7 +121,9 @@ describe("CreatePost component", () => {
 
     test("cancel button should navigate to /feed", () => {
         render(
-            <CreatePost />
+            <MemoryRouter>
+                <CreatePost />
+            </MemoryRouter>
         );
 
         const cancelButton = screen.getByText("Cancel");
