@@ -18,10 +18,6 @@ export class UserService {
     return user;
   }
 
-  async getUser() {
-    return this.users;
-  }
-
   async findUser(usr: string, pass?: string): Promise<User | undefined> {
     if (!pass) {
       return this.users.find((user) => user.username === usr);
