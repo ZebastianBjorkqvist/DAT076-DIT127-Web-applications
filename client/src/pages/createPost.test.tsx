@@ -3,14 +3,21 @@ global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder as any;
 
 import CreatePost from "./CreatePost";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent} from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import { MemoryRouter } from "react-router";
+import { checkAuth, createPost } from "../api";
 
 //Mock-API
-const mock = new MockAdapter(axios);
-const BASE_URL = "http://localhost:8080";
+
+jest.mock("../api", () => ({
+
+    checkAuth: jest.fn(),
+    createPost: jest.fn(),
+
+}));
+
 
 //Mock-navigate
 const mockNavigate = jest.fn();
@@ -22,6 +29,20 @@ jest.mock("react-router-dom", () => ({
 
 
 describe("CreatePost component", () => {
+
+    let mock: MockAdapter;
+
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+      (checkAuth as jest.Mock).mockResolvedValueOnce(true)
+  
+    });
+  
+    afterEach(() => {
+      mock.reset();
+    });
+
+
     test("renders form correctly", () => {
         render(
             <MemoryRouter>
@@ -81,17 +102,12 @@ describe("CreatePost component", () => {
         fireEvent.change(titleInput, { target: { value: "Test Title" } });
         fireEvent.change(contentInput, { target: { value: "Test Content" } });
 
-        mock.onPost(`${BASE_URL}/post`).reply(201, {
-            id: 1,
-            title: "Test Title",
-            text: "Test Content",
-            author: 123,
-        });
+        (createPost as jest.Mock).mockResolvedValueOnce({ id: "123", title: "Test Title", content: "Test Content" });
 
         fireEvent.click(submitButton);
 
         //expect success alert to appear
-        expect(await screen.findByText("Post submitted successfully!")).toBeInTheDocument();
+        expect(await screen.findByText(/Post submitted successfully!/i)).toBeInTheDocument();
 
         //expect inputs to be cleaned
         expect(titleInput.value).toBe("");
@@ -99,6 +115,7 @@ describe("CreatePost component", () => {
     });
 
     test("error alert should appear when post submission fails", async () => {
+        (createPost as jest.Mock).mockResolvedValueOnce("error"); // Simulate failure
         render(
             <MemoryRouter>
                 <CreatePost />
@@ -111,11 +128,11 @@ describe("CreatePost component", () => {
         fireEvent.change(titleInput, { target: { value: "Test Title" } });
         fireEvent.change(contentInput, { target: { value: "Test Content" } });
 
-        mock.onPost(`${BASE_URL}/post`).reply(500);
+        //mock.onPost(`${BASE_URL}/post`).reply(500);
 
         fireEvent.click(submitButton);
 
-        expect(await screen.findByText("Something went wrong submitting a post")).toBeInTheDocument();
+        expect(await screen.findByText(/Something went wrong submitting a post/i)).toBeInTheDocument();
     }
     );
 
