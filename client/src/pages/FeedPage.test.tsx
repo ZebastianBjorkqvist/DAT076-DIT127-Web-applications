@@ -25,7 +25,7 @@ const mockNavigate = jest.fn();
 
 
 describe("Navigation works from the feed page", () => {
-    test("Clicking 'Create Post' button navigates to '/newPost'", () => {
+    test("Create Post button navigates to new post page", () => {
         render(
           <MemoryRouter>
             <FeedPage />
@@ -45,6 +45,68 @@ describe("Navigation works from the feed page", () => {
       });
 
     });
+
+    test("Navbar sign out button navigates to log in page", () => {
+        render(
+            <MemoryRouter>
+              <FeedPage />
+            </MemoryRouter>
+          );
+      
+          // Find the button for creating a post
+          const LogoButton = screen.getByTestId("logo-btn");
+  
+          // Click the button
+          fireEvent.click(LogoButton);
+  
+          // Wait for navigation to be triggered
+          waitFor(() => {
+          expect(mockNavigate).toHaveBeenCalledTimes(1);
+          expect(mockNavigate).toHaveBeenCalledWith("/feed");
+        });
+
+    })
+
+    test("Navbar logo button reloads feedpage", () => {
+        render(
+            <MemoryRouter>
+              <FeedPage />
+            </MemoryRouter>
+          );
+      
+          // Find the button for creating a post
+          const ProfileButton = screen.getByTestId("profile-btn");
+  
+          // Click the button
+          fireEvent.click(ProfileButton);
+  
+          // Wait for navigation to be triggered
+          waitFor(() => {
+          expect(mockNavigate).toHaveBeenCalledTimes(1);
+          expect(mockNavigate).toHaveBeenCalledWith("/feed");
+        });
+        
+    })
+
+    test("Navbar profile button navigates to profile page", () => {
+        render(
+            <MemoryRouter>
+              <FeedPage />
+            </MemoryRouter>
+          );
+      
+          // Find the button for creating a post
+          const LogOutButton = screen.getByTestId("log-out-btn");
+  
+          // Click the button
+          fireEvent.click(LogOutButton);
+  
+          // Wait for navigation to be triggered
+          waitFor(() => {
+          expect(mockNavigate).toHaveBeenCalledTimes(1);
+          expect(mockNavigate).toHaveBeenCalledWith("./");
+        });
+    })
 
 
 })
@@ -76,7 +138,7 @@ describe("FeedPage Rendering Tests", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/welcome to the feed!/i)).toBeInTheDocument();
+    expect(screen.getByText("Welcome to the feed!")).toBeInTheDocument();
 
     // Wait for posts to be loaded
     await waitFor(() => {
@@ -102,17 +164,13 @@ describe("FeedPage Rendering Tests", () => {
 
 
     await waitFor(() => {
-      expect(screen.getByText(/welcome to the feed!/i)).toBeInTheDocument();
+      expect(screen.getByText("Welcome to the feed!")).toBeInTheDocument();
       expect(consoleErrorSpy).toHaveBeenCalledWith("Failed to load posts:", expect.any(Error));
     });
 
     // removing the spy thing
     consoleErrorSpy.mockRestore();
   });
-
-
-
-
 
 });
 
