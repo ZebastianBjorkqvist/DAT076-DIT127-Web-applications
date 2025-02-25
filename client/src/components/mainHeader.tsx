@@ -22,7 +22,7 @@ function MainHeader() {
     <Navbar className="p-3 header_colors w-100 no-padding standard-font" >
       <Container>
         {/* Left side: App logo and name */}
-        <Navbar.Brand href="./feed" className="header-text">
+        <Navbar.Brand href="./feed" className="header-text" data-testid="logo-btn">
           <img
             src={logoIcon}
             alt="App Logo"
@@ -34,13 +34,13 @@ function MainHeader() {
 
         {/* Right side: Icons */}
         <Nav className="ms-auto">
-          <Nav.Link href="./profile">
+          <Nav.Link href="./profile" data-testid="profile-btn">
 					<img
             src={UserIcon}
             alt="User icon"
           />
           </Nav.Link>
-          <Nav.Link onClick={handleLogout}>
+          <Nav.Link onClick={handleLogout} data-testid="log-out-btn">
 					<img
             src={Logout}
             alt="Log-out icon"
