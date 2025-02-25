@@ -5,41 +5,32 @@ import { User } from "./model/user";
 import exp from "constants";
 
 const request = SuperTest.default(app);
+let cookie: string[];
 
-test("End-to-end test", async () => {
-  const authorObject: User = {
-    id: Date.now(),
-    email: "test.user@gmail.com",
-    password: "testpass",
-    username: "testuser",
-  };
+beforeAll(async () => {});
 
-  const testCreatePostInput = {
-    text: "This is a test post",
-    author: authorObject.id,
-    title: "Test title",
-  };
+test("After we create a post, it should appear in the list of posts", async () => {
+  const createUserRes = await request
+    .post("/user")
+    .send({ email: "test@test.com", username: "test", password: "test" });
+  expect(createUserRes.status).toStrictEqual(201);
 
-  const createUserResult = await request.post("/user").send(authorObject);
-  expect(createUserResult.statusCode).toEqual(201);
+  const loginRes = await request
+    .post("/user/login")
+    .send({ username: "test", password: "test" });
+  expect(loginRes.status).toStrictEqual(200);
+  cookie = loginRes.get("Set-Cookie") as string[];
+  expect(cookie).toBeTruthy();
+  const testText = "Test the whole server";
 
-  const getUserResult = await request.get("/user");
-  expect(getUserResult.statusCode).toEqual(201);
-  expect(getUserResult.body.email).toEqual(authorObject.email);
-  expect(getUserResult.body.password).toEqual(authorObject.password);
-  expect(getUserResult.body.username).toEqual(authorObject.username);
-  
+  const res1 = await request
+    .post("/post")
+    .set("Cookie", cookie)
+    .send({ text: testText, title: "testingpost title" });
+  expect(res1.status).toStrictEqual(201);
+  expect(res1.body.text).toStrictEqual(testText);
 
-  
-  const createPostResult = await request.post("/post").send(testCreatePostInput);
-  expect(createPostResult.statusCode).toEqual(201);
-  expect(createPostResult.body.text).toEqual(testCreatePostInput.text);
-  expect(createPostResult.body.author).toEqual(authorObject.id);
-  expect(createPostResult.body.title).toEqual(testCreatePostInput.title);
-
-  const getPostResult = await request.get("/post");
-  expect(getPostResult.statusCode).toEqual(200);
-  expect(getPostResult.body.map((post: Post) => post.title)).toContain(
-    testCreatePostInput.title
-  );
+  const res2 = await request.get("/post").set("Cookie", cookie);
+  expect(res2.status).toStrictEqual(200);
+  expect(res2.body.some((post: Post) => post.text === testText)).toBeTruthy();
 });
