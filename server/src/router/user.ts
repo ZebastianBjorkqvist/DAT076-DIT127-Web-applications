@@ -11,10 +11,37 @@ interface UserRequest extends Request {
   session: any;
 }
 
+userRouter.get("/current", async (req: UserRequest, res: Response) => {
+  try {
+    if (req.session.username) {
+      userService.findUser(req.session.username).then((user) => {
+        if (!user) {
+          res.status(401).send("Not authenticated");
+          return;
+        }
+        res.status(200).send({username: user.username, email: user.email});
+      });
+    } else {
+      res.status(401).send("Not authenticated");
+    }
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
+
 userRouter.get("/", async (req: UserRequest, res: Response) => {
   try {
-    const newUser = await userService.getUser();
-    res.status(201).send(newUser);
+    if (req.session.username) {
+      userService.findUser(req.session.username).then((user) => {
+        if (!user) {
+          res.status(401).send("Not authenticated");
+          return;
+        }
+        res.status(200).send({username: user.username, email: user.email});
+      });
+    } else {
+      res.status(401).send("Not authenticated");
+    }
   } catch (e: any) {
     res.status(500).send(e.message);
   }

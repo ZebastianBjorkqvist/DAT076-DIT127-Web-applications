@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async getUser() {
-    return this.user;
+    return this.users;
   }
 
   async findUser(usr: string, pass?: string): Promise<User | undefined> {

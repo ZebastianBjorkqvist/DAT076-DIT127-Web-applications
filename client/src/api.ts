@@ -16,6 +16,11 @@ export type User = {
   username: string;
 };
 
+export type CurrentUser = {
+  username: string;
+  email: string;
+}
+
 const BASE_URL = "http://localhost:8080";
 
 export async function getPosts(): Promise<Post[]> {
@@ -111,5 +116,18 @@ export async function logout(): Promise<boolean> {
     return response.status === 200;
   } catch (e: any) {
       return false
+  }
+}
+
+export async function getCurrentUser(): Promise<CurrentUser | undefined>{
+  try{
+    const response = await axios.get<CurrentUser>(`${BASE_URL}/user/current`);
+    if(response.status !== 200){
+      throw new Error(response.statusText);
+    }
+    return response.data;
+  }catch(e: any){
+    console.log("Failed to get current user: ", e.message);
+    return undefined;
   }
 }
