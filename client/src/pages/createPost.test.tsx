@@ -24,7 +24,6 @@ jest.mock("react-router-dom", () => ({
 }));
 
 
-
 describe("CreatePost component", () => {
 
     let mock: MockAdapter;
