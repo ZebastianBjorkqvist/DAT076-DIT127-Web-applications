@@ -33,7 +33,6 @@ const FeedPage = () => {
     try {
       const ts = await getPosts();
       setPosts(ts);
-      console.log(posts);
     } catch (error) {
       console.error("Failed to load posts:", error);
     }
