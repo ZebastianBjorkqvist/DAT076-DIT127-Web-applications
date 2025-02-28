@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react';
 import MainHeader from '../components/mainHeader';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
-import { checkAuth, createPost} from '../api';
+import { createPost} from '../api';
 import RedirectComponent from '../components/redirectComponent';
+import { useAuth } from '../context/AuthContext';
 
 export function CreatePost() {
   const [postContent, setPostContent] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [alert, setAlert] = useState({message: "", type: ""});
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
+  const authContext = useAuth();
+  
 
   const handlePostSubmit = async () => {
     if (!postContent.trim() || !postTitle.trim()) {
@@ -35,15 +38,13 @@ export function CreatePost() {
   };
 
   useEffect(() => {
-    checkAuth().then((isAuthenticated) => {
-      if (!isAuthenticated) {
-        setIsAuthenticated(false);
-        setMessage("You need to be logged in to access this page. Redirecting...");
-      } 
-    });
+    if (!authContext.isAuthenticated) {
+      //setIsAuthenticated(false);
+      setMessage("You need to be logged in to access this page. Redirecting...");
+    } 
   }, []);
 
-  return isAuthenticated ? (
+  return authContext.isAuthenticated ? (
     <>
       <MainHeader />
       <div className="container mt-5 create-post-container text-start">

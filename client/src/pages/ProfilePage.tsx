@@ -2,23 +2,24 @@ import MainHeader from "../components/mainHeader";
 import UserIcon from "../assets/User Profile 02.svg";
 import { Container, Row, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { checkAuth, getCurrentUser } from "../api";
+import { getCurrentUser } from "../api";
 import RedirectComponent from "../components/redirectComponent";
+import { useAuth } from "../context/AuthContext";
 
 
 function ProfilePage() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+    //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
     const [username, setUsername] = useState('Cannot find username');
     const [email, setEmail] = useState('Cannot find email');
+    const authContext = useAuth();
+    
 
     useEffect(() => {
-        checkAuth().then((isAuthenticated) => {
-            if (!isAuthenticated) {
-                setIsAuthenticated(false);
-                console.log("You need to be logged in to access this page. Redirecting...");
-            }
+        if (!authContext.isAuthenticated) {
+            //setIsAuthenticated(false);
+            console.log("You need to be logged in to access this page. Redirecting...");
         }
-        );
+        
         getCurrentUser().then((user) => {
             if (user == undefined) {
             } else {
@@ -28,7 +29,7 @@ function ProfilePage() {
         });
     }, []);
 
-    return isAuthenticated ? (
+    return authContext.isAuthenticated ? (
         <>
             <MainHeader />
             <Container className="mt-5 align-items-center d-flex flex-column justify-content-center">

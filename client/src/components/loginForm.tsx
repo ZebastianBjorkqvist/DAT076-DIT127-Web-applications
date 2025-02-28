@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import "../styles/index.css";
 import { useEffect, useState } from "react";
 import { login, LoginResult } from "../api";
+import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
   interface Errors {
@@ -17,6 +18,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [notification, setNotification] = useState("");
   const [errors, setErrors] = useState<Errors>({});
+  const authContext = useAuth();
+  
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,6 +52,7 @@ const LoginForm = () => {
         "An error occurred while processing your request. Please try again later.";
     }
     if (loginResult === LoginResult.SUCCESS) {
+      authContext.setIsAuthenticated(true);
       navigate("/feed");
       return;
     }

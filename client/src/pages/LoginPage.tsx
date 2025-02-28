@@ -3,21 +3,19 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../styles/App.css";
 import Login from "../components/loginForm.tsx";
 import Header from "../components/loginHeader.tsx";
-import { checkAuth } from "../api";
 import { useEffect} from "react";
 import {  useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext.tsx";
 
 
 function LoginPage() {  
   const navigate = useNavigate();
+  const authContext = useAuth();
 
   useEffect(() => {
-     checkAuth()
-      .then((isAuthenticated) => {
-        if (isAuthenticated) {
-          navigate("/feed")
-        }
-      })
+     if (authContext.isAuthenticated) {
+        navigate("/feed")
+     }
   })
 
   return (

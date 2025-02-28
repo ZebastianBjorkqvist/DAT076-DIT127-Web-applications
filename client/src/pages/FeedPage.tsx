@@ -10,14 +10,17 @@ import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
 import { Post } from "../../../server/src/model/post";
-import { checkAuth, getPosts } from "../api";
+import { getPosts } from "../api";
 import RedirectComponent from "../components/redirectComponent";
+import { useAuth } from "../context/AuthContext";
 
 const FeedPage = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
+  const authContext = useAuth();
+  
 
   /*
   const arr = {
@@ -39,17 +42,15 @@ const FeedPage = () => {
   }
 
   useEffect(() => {
-    checkAuth().then((isAuthenticated) => {
-      if (!isAuthenticated) {
-        setIsAuthenticated(false);
-        setMessage("You need to be logged in to access this page. Redirecting...");
-      } else {
-        loadPosts();
-      }
-    });
+    if (!authContext.isAuthenticated) {
+      //setIsAuthenticated(false);
+      setMessage("You need to be logged in to access this page. Redirecting...");
+    } else {
+      loadPosts();
+    }
   }, []);
 
-  return isAuthenticated ? (
+  return authContext.isAuthenticated ? (
     <div className="feed-page size_and_colors w-100">
       <Container fluid className="sticky-top">
         <MainHeader />
@@ -78,7 +79,7 @@ const FeedPage = () => {
         </Button>
       </div>
     </div>
-  ): 
+  ):
   <RedirectComponent message={message} url="" />;
 };
 
