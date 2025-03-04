@@ -3,5 +3,5 @@ export interface Post {
   text: string;
   author: string;
   title: string;
-  topic: string;
+  topics: string[];
 }

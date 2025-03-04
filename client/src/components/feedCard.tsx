@@ -6,7 +6,15 @@ import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
 import { fetchLikes, updateLike } from "../api"; // Assuming these API functions are available
 
-function FeedCard(props: any) {
+interface FeedCardProps {
+  title: string;
+  text: string;
+  topics?: string[];
+  postId: string;
+  token: string;
+}
+
+function FeedCard({ title, text, topics = [], postId, token }: FeedCardProps) {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +23,7 @@ function FeedCard(props: any) {
     // Fetch like data when the component mounts
     const fetchLikeData = async () => {
       try {
-        const data = await fetchLikes(props.postId);
+        const data = await fetchLikes(postId);
         setLikeCount(data.likeCount);
         setLiked(data.userLiked);
       } catch (error) {
@@ -24,7 +32,7 @@ function FeedCard(props: any) {
     };
 
     fetchLikeData();
-  }, [props.postId]);
+  }, [postId]);
 
   const handleLike = async () => {
     const newLiked = !liked;
@@ -32,7 +40,7 @@ function FeedCard(props: any) {
     setLikeCount((prev) => (newLiked ? prev + 1 : prev - 1));
 
     try {
-      await updateLike(props.postId, newLiked, props.token);
+      await updateLike(postId, newLiked, token);
     } catch (error) {
       setError("Failed to update like");
       setLiked(!newLiked);
@@ -44,7 +52,7 @@ function FeedCard(props: any) {
     <div className="post-card">
       <Row className="post-card-header">
         <Col>
-          <header className="header-text">{props.title}</header>
+          <header className="header-text">{title}</header>
         </Col>
         <Col>
           <img src={UserIcon} alt="User Icon" className="img" width="50" />
@@ -53,12 +61,12 @@ function FeedCard(props: any) {
 
       <Row>
         <Col className="text-start">
-          <p className="post-card-topic-text">Topic: {props.topic}</p>
+          <p className="post-card-topic-text">Topics: {topics.length > 0 ? topics.join(', ') : "no topics"}</p>
         </Col>
       </Row>
 
       <Row className="post-card-text">
-        <p>{props.description}</p>
+        <p>{text}</p>
       </Row>
 
       <Row className="post-card-footer">

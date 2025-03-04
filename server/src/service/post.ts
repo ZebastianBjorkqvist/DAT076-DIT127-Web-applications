@@ -1,6 +1,8 @@
 import { InferCreationAttributes } from "sequelize";
 import { PostModel } from "../db/post.db";
 import { Post } from "../model/post";
+import { Op } from 'sequelize';
+
 
 export class PostService {  
 
@@ -9,13 +11,13 @@ export class PostService {
     return posts;
   }
 
-  async createPost(text: string, author: string, title: string, topic: string): Promise<Post|undefined> {
+  async createPost(text: string, author: string, title: string, topics: string[]): Promise<Post|undefined> {
     const newPost = await PostModel.create({
       id: Date.now(),
       text: text,
       author: author,
       title: title,
-      topic: topic
+      topics: topics
     } as InferCreationAttributes<PostModel>);
 
     // Fetch the post with topics included
@@ -24,7 +26,7 @@ export class PostService {
   }
 
   async getPostsByTopic(topic: string): Promise<Post[]> {
-    const posts = await PostModel.findAll({ where: { topic: topic } });
+    const posts = await PostModel.findAll({ where: { topics:  {[Op.contains]: [topic]}} });
     return posts;
   }
 

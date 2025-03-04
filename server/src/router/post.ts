@@ -26,7 +26,7 @@ postRouter.get(
 );
 
 interface CreatePostRequest extends Request {
-  body: { text: string; title: string; topic: string };
+  body: { text: string; title: string; topics: string[] };
   session: any;
 }
 
@@ -50,13 +50,16 @@ postRouter.post(
         return;
       }
 
-      const topic = req.body.topic;
-      if(typeof topic !== "string"){
-        res.status(400).send("topic should be of type string");
+      const topics = req.body.topics;
+      if (!Array.isArray(topics) || !topics.every(topic => typeof topic === "string")) {
+        res.status(400).send("topics should be an array of strings");
         return;
       }
+      if(topics.length > 10){
+        res.status(400).send("no more than 10 topics is allowed");
+      }
 
-      const newPost = await postService.createPost(text, req.session.username, title, topic);
+      const newPost = await postService.createPost(text, req.session.username, title, topics);
       if(newPost){
         res.status(201).send(newPost);
         return;

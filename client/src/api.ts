@@ -7,7 +7,7 @@ export type Post = {
   author: string;
   text: string;
   title: string;
-  topic: string;
+  topics: string[];
 };
 
 export type User = {
@@ -48,13 +48,13 @@ export async function getPostByTopic(topic: string): Promise<Post[]>{
 export async function createPost(
   title: string,
   text: string,
-  topic: string
+  topics: string[]
 ): Promise<Post | string> {
   try {
     const response = await axios.post<Post>(`${BASE_URL}/post`, {
       title: title,
       text: text,
-      topic: topic,
+      topics: topics,
     });
     if (response.status !== 201) {
       throw new Error(response.statusText);
