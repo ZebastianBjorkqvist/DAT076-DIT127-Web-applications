@@ -1,4 +1,4 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey } from 'sequelize';
+import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey, HasManySetAssociationsMixin } from 'sequelize';
 import { sequelize } from './conn';
 import { UserModel } from './user.db';
 
@@ -6,14 +6,15 @@ export class PostModel extends Model<InferAttributes<PostModel>, InferCreationAt
   declare id: CreationOptional<number>;
   declare title: string;
   declare text: string;
-  declare author: ForeignKey<UserModel['id']>;
+  declare author: ForeignKey<UserModel['username']>;
+  declare topic: string;
 }
 
 PostModel.init(
   {
     id: {
       type: DataTypes.BIGINT,
-      autoIncrement: false,
+      autoIncrement: true,
       primaryKey: true
     },
     title: {
@@ -25,7 +26,10 @@ PostModel.init(
       allowNull: false
     },
     author: {
-        type: DataTypes.BIGINT
+        type: DataTypes.STRING
+    },
+    topic: {
+      type: DataTypes.STRING
     }
   },
   {

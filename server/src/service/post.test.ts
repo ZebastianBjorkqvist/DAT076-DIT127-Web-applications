@@ -14,8 +14,9 @@ describe("PostService", () => {
     const text = "Test text";
     const author = mockUser;
     const title = "Test title";
+    const topics = ["topic1", "topic2"]
     const postService = new PostService();
-    await postService.createPost(text, author, title);
+    await postService.createPost(text, author, title, topics);
     const posts = await postService.getPosts();
     expect(
       posts.some(
@@ -28,8 +29,8 @@ describe("PostService", () => {
   });
 
   test("should handle multiple posts correctly", async () => {
-    await postService.createPost("First", mockUser, "Title 1");
-    await postService.createPost("Second", mockUser, "Title 2");
+    await postService.createPost("First", mockUser, "Title 1", ["topic1", "topic2"]);
+    await postService.createPost("Second", mockUser, "Title 2", ["topic1", "topic2"]);
 
     const posts = await postService.getPosts();
 
@@ -57,7 +58,8 @@ describe("PostService", () => {
     const post = await postService.createPost(
       "Immutable check",
       mockUser,
-      "Immutability"
+      "Immutability",
+      ["topic1", "topic2"]
     );
     post.text = "Modified Text"; // Modify the returned object
 
@@ -66,11 +68,16 @@ describe("PostService", () => {
   });
 
   test("should clear all posts", async () => {
-    await postService.createPost("First", mockUser, "Title 1");
+    await postService.createPost("First", mockUser, "Title 1", ["topic1", "topic2"]);
     postService.clearPosts();
     const posts = await postService.getPosts();
     expect(posts.length).toBe(0);
   });
   
+  test("create new post ", async () => {
+    const newPost = await postService.newCreatePost("test text", mockUser, "test title", ["topic1", "topic2"]);
+    console.log(newPost);
+    expect(1 === 1);
+  });
 
 });

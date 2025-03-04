@@ -1,6 +1,7 @@
 export interface Post {
   id: number;
   text: string;
-  author: number;
+  author: string;
   title: string;
+  topic: string;
 }

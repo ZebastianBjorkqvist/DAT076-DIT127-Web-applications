@@ -10,9 +10,14 @@ export const postRouter: Router = express.Router();
 postRouter.get(
   "/",
   isAuthenticated,
-  async (req: Request<{}, {}, {}>, res: Response<Post[] | String>) => {
+  async (req: Request<{}, {}, {}, { topic?: string }>, res: Response<Post[] | string>) => {
     try {
-      const posts = await postService.getPosts();
+      const { topic } = req.query;
+      if (typeof topic !== 'string' && topic !== undefined) {
+        res.status(400).send('topic should be of type string');
+        return;
+      }
+      const posts = topic ? await postService.getPostsByTopic(topic) : await postService.getPosts();
       res.status(200).send(posts);
     } catch (e: any) {
       res.status(500).send(e.message);
@@ -21,7 +26,7 @@ postRouter.get(
 );
 
 interface CreatePostRequest extends Request {
-  body: { text: string; title: string };
+  body: { text: string; title: string; topic: string };
   session: any;
 }
 
@@ -45,15 +50,20 @@ postRouter.post(
         return;
       }
 
-      const newPost = await postService.createPost(text, req.session.id, title);
-      res.status(201).send(newPost);
+      const topic = req.body.topic;
+      if(typeof topic !== "string"){
+        res.status(400).send("topic should be of type string");
+        return;
+      }
+
+      const newPost = await postService.createPost(text, req.session.username, title, topic);
+      if(newPost){
+        res.status(201).send(newPost);
+        return;
+      }
+      res.status(500).send("Server error");
     } catch (e: any) {
       res.status(500).send(e.message);
     }
   }
 );
-
-postRouter.delete("/reset", (req: Request, res: Response) => {
-  postService.clearPosts(); // This function should reset the list
-  res.status(200).send("Post list cleared");
-});

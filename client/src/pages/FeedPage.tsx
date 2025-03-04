@@ -10,9 +10,10 @@ import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
 import { Post } from "../../../server/src/model/post";
-import { getPosts } from "../api";
+import { getPosts, getPostByTopic} from "../api";
 import RedirectComponent from "../components/redirectComponent";
 import { useAuth } from "../context/AuthContext";
+import SearchComponent from "../components/searchComponent";
 
 const FeedPage = () => {
   const navigate = useNavigate();
@@ -30,7 +31,19 @@ const FeedPage = () => {
     ],
   };
   */
-
+  const searchTopic = async (topic: string) => {
+    console.log("searching for topic: ", topic);
+    try {
+      const ts = await getPostByTopic(topic);
+      if (ts.length === 0) {
+        console.log("No posts found for topic: ", topic);
+        return;
+      }
+      setPosts(ts);
+    } catch (error) {
+      console.error("Failed to load posts:", error);
+    }
+  }
 
   async function loadPosts() {
     try {
@@ -62,6 +75,7 @@ const FeedPage = () => {
           <Col xs={2} className="sidebar"></Col>
           <Col xs={8} className="p-4">
             <Container>
+              <SearchComponent onSearch={searchTopic} />
               <h2 className="header-text">Welcome to the feed!</h2>
               {posts.map((post) => (
                 <FeedCard  title={post.title} description={post.text} />

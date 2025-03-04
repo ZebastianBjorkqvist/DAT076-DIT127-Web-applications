@@ -4,7 +4,7 @@ axios.defaults.withCredentials = true;
 
 export type Post = {
   id: number;
-  author: number;
+  author: string;
   text: string;
   title: string;
 };
@@ -29,6 +29,21 @@ export async function getPosts(): Promise<Post[]> {
   return response.data;
 }
 
+export async function getPostByTopic(topic: string): Promise<Post[]>{
+  try {
+    const response = await axios.get<Post[]>(`${BASE_URL}/post?topic=${topic}`);
+    if (response.status !== 200) {
+      throw new Error(response.statusText);
+    }
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("Something went wrong fetching the posts: " + error.message);
+    }
+    return [];
+  }
+}
+
 export async function createPost(
   title: string,
   text: string
@@ -37,7 +52,7 @@ export async function createPost(
     const response = await axios.post<Post>(`${BASE_URL}/post`, {
       title: title,
       text: text,
-      author: 123,
+      topic: "topic1",
     });
     if (response.status !== 201) {
       throw new Error(response.statusText);
