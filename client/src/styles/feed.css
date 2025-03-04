@@ -37,6 +37,10 @@
     color: #733148 !important;
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
 .standard-font{
     font-family: 'Lucida Sans', Verdana, sans-serif;
 }

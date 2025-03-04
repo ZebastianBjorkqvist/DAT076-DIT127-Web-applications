@@ -31,7 +31,7 @@ function MainHeader() {
     <Navbar className="p-3 header_colors w-100 no-padding standard-font" >
       <Container>
         {/* Left side: App logo and name */}
-        <Navbar.Brand onClick={() => navigateTo("/feed")} className="header-text" data-testid="logo-btn">
+        <Navbar.Brand onClick={() => navigateTo("/feed")} className="header-text cursor-pointer" data-testid="logo-btn">
           <img
             src={logoIcon}
             alt="App Logo"

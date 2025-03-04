@@ -12,6 +12,8 @@ function ProfilePage() {
     const [username, setUsername] = useState('Cannot find username');
     const [email, setEmail] = useState('Cannot find email');
     const authContext = useAuth();
+    const [amtLikes, setamtLikes] = useState('Cannot load likes')
+    const [amtPosts, setamtPosts] = useState('Cannot load your posts')
     
 
     useEffect(() => {
@@ -25,6 +27,8 @@ function ProfilePage() {
             } else {
                 setUsername(user.username);
                 setEmail(user.email);
+                setamtLikes('10');
+                setamtPosts('20')
             }
         });
     }, []);
@@ -35,7 +39,7 @@ function ProfilePage() {
             <Container className="mt-5 align-items-center d-flex flex-column justify-content-center">
 
                 <h1 className="text-center">Profile</h1>
-                <Row className="mt-5" style={{ maxWidth: '500px', width: '100%', padding: '20px', backgroundColor: '#E5DCDF' }}>
+                <Row className="mt-5" style={{ maxWidth: '700px', width: '100%', padding: '20px', backgroundColor: '#E5DCDF' }}>
 
                     <Col md={4} className="text-center" style={{ paddingTop: '10px' }}>
                         <img
@@ -51,6 +55,10 @@ function ProfilePage() {
                         <p>{username}</p>
                         <h4>Email</h4>
                         <p>{email}</p>
+                        <h4>Your likes</h4>
+                        <p>You have liked {amtLikes} posts on Chatter</p>
+                        <h4>Your posts</h4>
+                        <p>You have written {amtPosts} posts on Chatter!</p>
                     </Col>
                 </Row>
             </Container>

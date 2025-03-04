@@ -1,5 +1,6 @@
 import {
 
+    act,
     fireEvent,
     render,
     screen,
@@ -13,7 +14,7 @@ import axios from "axios";
 
 import CreateUser from "./CreateUser";
 jest.mock("axios");
-  //const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedAxios = axios as jest.Mocked<typeof axios>;
   
   //Mock-API
 jest.mock("../api", () => ({
@@ -85,7 +86,43 @@ describe("Create User", () => {
           expect(mockNavigate).toHaveBeenCalledTimes(1);
           expect(mockNavigate).toHaveBeenCalledWith("./");
         });
-
     })
+
+    test("sends correct login data to backend", async () => {
+        render(
+          <MemoryRouter>
+            <CreateUser />
+          </MemoryRouter>
+        );
+
+        const usernameField = (screen.getByPlaceholderText("Enter username"))
+        const emailField = (screen.getByPlaceholderText("Enter email"))
+        const passwordField = (screen.getByPlaceholderText("Enter password"))
+
+        const createUserBtn = (screen.getByTestId("create-user-btn"));
+
+
+
+
+        await act(async () => {
+          fireEvent.change(await usernameField, { target: { value: "zeb" } });
+          fireEvent.change(await passwordField, { target: { value: "123" } });
+          fireEvent.change(await emailField, {target : {value: "hej@gmail.com" }})
+
+        });
+
+        fireEvent.click(createUserBtn);
+    
+        await waitFor(() => {
+          expect(mockedAxios.post).toHaveBeenCalledWith(
+            "http://localhost:8080/user",
+            {
+              username: "zeb",
+              password: "123",
+              email: "hej@gmail.com"
+            }
+          );
+        });
+      });
 
 });

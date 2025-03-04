@@ -35,7 +35,7 @@ function SearchComponent({ onSearch }: SearchComponentProps) {
                                 placeholder="Write your topic here"
                                 value={topic}
                                 onChange={handleInputChange}
-                                onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
                                     if (event.key === 'Enter') {
                                         handleSearch();
                                     }
