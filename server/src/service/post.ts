@@ -1,23 +1,34 @@
 import { InferCreationAttributes } from "sequelize";
 import { PostModel } from "../db/post.db";
 import { Post } from "../model/post";
-import { Op } from 'sequelize';
+import { Op } from "sequelize";
 
+export class PostService {
+  getNumOfLikes(postId: number) {
+    return 4;
+  }
 
-export class PostService {  
+  updateLike(postId: number, username: any, like: any) {
+    return true;
+  }
 
-  async getPosts(): Promise<Post[]>{
+  async getPosts(): Promise<Post[]> {
     const posts = await PostModel.findAll();
     return posts;
   }
 
-  async createPost(text: string, author: string, title: string, topics: string[]): Promise<Post|undefined> {
+  async createPost(
+    text: string,
+    author: string,
+    title: string,
+    topics: string[]
+  ): Promise<Post | undefined> {
     const newPost = await PostModel.create({
       id: Date.now(),
       text: text,
       author: author,
       title: title,
-      topics: topics
+      topics: topics,
     } as InferCreationAttributes<PostModel>);
 
     // Fetch the post with topics included
@@ -26,8 +37,9 @@ export class PostService {
   }
 
   async getPostsByTopic(topic: string): Promise<Post[]> {
-    const posts = await PostModel.findAll({ where: { topics:  {[Op.contains]: [topic]}} });
+    const posts = await PostModel.findAll({
+      where: { topics: { [Op.contains]: [topic] } },
+    });
     return posts;
   }
-
 }

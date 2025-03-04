@@ -9,7 +9,7 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
-import { getPosts, getPostByTopic, Post} from "../api";
+import { getPosts, getPostByTopic, Post } from "../api";
 import RedirectComponent from "../components/redirectComponent";
 import { useAuth } from "../context/AuthContext";
 import SearchComponent from "../components/searchComponent";
@@ -20,7 +20,6 @@ const FeedPage = () => {
   const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const authContext = useAuth();
-  
 
   /*
   const arr = {
@@ -42,7 +41,7 @@ const FeedPage = () => {
     } catch (error) {
       console.error("Failed to load posts:", error);
     }
-  }
+  };
 
   async function loadPosts() {
     try {
@@ -56,7 +55,9 @@ const FeedPage = () => {
   useEffect(() => {
     if (!authContext.isAuthenticated) {
       //setIsAuthenticated(false);
-      setMessage("You need to be logged in to access this page. Redirecting...");
+      setMessage(
+        "You need to be logged in to access this page. Redirecting..."
+      );
     } else {
       loadPosts();
     }
@@ -77,7 +78,12 @@ const FeedPage = () => {
               <SearchComponent onSearch={searchTopic} />
               <h2 className="header-text">Welcome to the feed!</h2>
               {posts.map((post) => (
-                <FeedCard title={post.title} text={post.text} topics={post?.topics ?? []} postId={""} token={""}/>
+                <FeedCard
+                  title={post.title}
+                  text={post.text}
+                  topics={post?.topics ?? []}
+                  postId={post.id}
+                />
               ))}
             </Container>
           </Col>
@@ -87,13 +93,18 @@ const FeedPage = () => {
 
       {/* floating icon for create post in bottom right corner */}
       <div className="floating-icon">
-        <Button className="btn-custom" onClick={() => navigate("/newPost")} data-testid="create-post-btn" >
+        <Button
+          className="btn-custom"
+          onClick={() => navigate("/newPost")}
+          data-testid="create-post-btn"
+        >
           <img src={CreatePostIcon} alt="Create Post" />
         </Button>
       </div>
     </div>
-  ):
-  <RedirectComponent message={message} url="" />;
+  ) : (
+    <RedirectComponent message={message} url="" />
+  );
 };
 
 export default FeedPage;

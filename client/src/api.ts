@@ -30,7 +30,7 @@ export async function getPosts(): Promise<Post[]> {
   return response.data;
 }
 
-export async function getPostByTopic(topic: string): Promise<Post[]>{
+export async function getPostByTopic(topic: string): Promise<Post[]> {
   try {
     const response = await axios.get<Post[]>(`${BASE_URL}/post?topic=${topic}`);
     if (response.status !== 200) {
@@ -149,32 +149,19 @@ export async function getCurrentUser(): Promise<CurrentUser | undefined> {
   }
 }
 
-export const fetchLikes = async (postId: string) => {
+export const fetchNumberOfLikes = async (postId: number) => {
   try {
-    const response = await axios.get(`${BASE_URL}/posts/${postId}/likes`);
-    return response.data; // Assuming response contains likeCount and userLiked
+    const response = await axios.get(`${BASE_URL}/post/${postId}/likes`);
+    return response.data;
   } catch (error) {
     console.error("Error fetching likes:", error);
     throw error;
   }
 };
 
-export const updateLike = async (
-  postId: string,
-  like: boolean,
-  token: string
-) => {
+export const setLikeState = async (postId: number, like: boolean) => {
   try {
-    await axios.post(
-      `${BASE_URL}/posts/${postId}/like`,
-      { like },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.post(`${BASE_URL}/post/${postId}/like`, { like });
   } catch (error) {
     console.error("Error updating like:", error);
     throw error;

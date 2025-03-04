@@ -4,27 +4,25 @@ import "../styles/feed.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
-import { fetchLikes, updateLike } from "../api"; // Assuming these API functions are available
+import { fetchNumberOfLikes, setLikeState } from "../api"; // Assuming these API functions are available
 
 interface FeedCardProps {
   title: string;
   text: string;
   topics?: string[];
-  postId: string;
-  token: string;
+  postId: number;
 }
 
-function FeedCard({ title, text, topics = [], postId, token }: FeedCardProps) {
+function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch like data when the component mounts
     const fetchLikeData = async () => {
       try {
-        const data = await fetchLikes(postId);
-        setLikeCount(data.likeCount);
+        const data = await fetchNumberOfLikes(postId);
+        setLikeCount(data);
         setLiked(data.userLiked);
       } catch (error) {
         setError("Failed to fetch like data");
@@ -40,7 +38,7 @@ function FeedCard({ title, text, topics = [], postId, token }: FeedCardProps) {
     setLikeCount((prev) => (newLiked ? prev + 1 : prev - 1));
 
     try {
-      await updateLike(postId, newLiked, token);
+      await setLikeState(postId, newLiked);
     } catch (error) {
       setError("Failed to update like");
       setLiked(!newLiked);
@@ -61,7 +59,9 @@ function FeedCard({ title, text, topics = [], postId, token }: FeedCardProps) {
 
       <Row>
         <Col className="text-start">
-          <p className="post-card-topic-text">Topics: {topics.length > 0 ? topics.join(', ') : "no topics"}</p>
+          <p className="post-card-topic-text">
+            Topics: {topics.length > 0 ? topics.join(", ") : "no topics"}
+          </p>
         </Col>
       </Row>
 
