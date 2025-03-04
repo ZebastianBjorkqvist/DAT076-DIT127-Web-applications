@@ -19,7 +19,7 @@ export type User = {
 export type CurrentUser = {
   username: string;
   email: string;
-}
+};
 
 const BASE_URL = "http://localhost:8080";
 
@@ -115,19 +115,51 @@ export async function logout(): Promise<boolean> {
     const response = await axios.post(`${BASE_URL}/user/logout`);
     return response.status === 200;
   } catch (e: any) {
-      return false
+    return false;
   }
 }
 
-export async function getCurrentUser(): Promise<CurrentUser | undefined>{
-  try{
+export async function getCurrentUser(): Promise<CurrentUser | undefined> {
+  try {
     const response = await axios.get<CurrentUser>(`${BASE_URL}/user/current`);
-    if(response.status !== 200){
+    if (response.status !== 200) {
       throw new Error(response.statusText);
     }
     return response.data;
-  }catch(e: any){
+  } catch (e: any) {
     console.log("Failed to get current user: ", e.message);
     return undefined;
   }
 }
+
+export const fetchLikes = async (postId: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/posts/${postId}/likes`);
+    return response.data; // Assuming response contains likeCount and userLiked
+  } catch (error) {
+    console.error("Error fetching likes:", error);
+    throw error;
+  }
+};
+
+export const updateLike = async (
+  postId: string,
+  like: boolean,
+  token: string
+) => {
+  try {
+    await axios.post(
+      `${BASE_URL}/posts/${postId}/like`,
+      { like },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error updating like:", error);
+    throw error;
+  }
+};
