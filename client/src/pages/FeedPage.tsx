@@ -77,7 +77,7 @@ const FeedPage = () => {
               <SearchComponent onSearch={searchTopic} />
               <h2 className="header-text">Welcome to the feed!</h2>
               {posts.map((post) => (
-                <FeedCard  title={post.title} description={post.text} />
+                <FeedCard  title={post.title} description={post.text} topic={post.topic}/>
               ))}
             </Container>
           </Col>

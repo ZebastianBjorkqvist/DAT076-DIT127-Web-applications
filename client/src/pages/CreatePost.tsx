@@ -7,8 +7,9 @@ import RedirectComponent from '../components/redirectComponent';
 import { useAuth } from '../context/AuthContext';
 
 export function CreatePost() {
-  const [postContent, setPostContent] = useState("");
-  const [postTitle, setPostTitle] = useState("");
+  const [postContent, setPostContent] = useState<string>("");
+  const [postTitle, setPostTitle] = useState<string>("");
+  const [postTopic, setPostTopic] = useState<string>("")
   const [alert, setAlert] = useState({message: "", type: ""});
   //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
@@ -21,7 +22,7 @@ export function CreatePost() {
       setAlert({ type: "danger", message: "Cannot be any empty fields!" });
       return;
     }
-    createPost(postTitle, postContent)
+    createPost(postTitle, postContent, postTopic)
       .then((response) => {
         if (typeof response === "string") {
           setAlert({ type: "danger", message: "Something went wrong submitting a post" });
@@ -64,6 +65,13 @@ export function CreatePost() {
           value={postTitle}
           onChange={(e) => setPostTitle(e.target.value)}
         />
+        <input
+          type="text"
+          className='form-control mb-3'
+          placeholder='Topic'
+          value={postTopic}
+          onChange={(e) => setPostTopic(e.target.value)}
+          />
         <textarea
           className="form-control mb-3"
           rows={6}

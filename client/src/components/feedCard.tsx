@@ -51,6 +51,12 @@ function FeedCard(props: any) {
         </Col>
       </Row>
 
+      <Row>
+        <Col className="text-start">
+          <p className="post-card-topic-text">Topic: {props.topic}</p>
+        </Col>
+      </Row>
+
       <Row className="post-card-text">
         <p>{props.description}</p>
       </Row>
