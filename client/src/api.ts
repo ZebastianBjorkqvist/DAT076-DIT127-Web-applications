@@ -22,6 +22,11 @@ export type CurrentUser = {
   email: string;
 };
 
+export type LikeData = {
+  likeCount: number;
+  userLiked: boolean;
+};
+
 const BASE_URL = "http://localhost:8080";
 
 export async function getPosts(): Promise<Post[]> {
@@ -149,9 +154,10 @@ export async function getCurrentUser(): Promise<CurrentUser | undefined> {
   }
 }
 
-export const fetchNumberOfLikes = async (postId: number) => {
+export const fetchLike = async (postId: number): Promise<LikeData> => {
   try {
     const response = await axios.get(`${BASE_URL}/post/${postId}/likes`);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching likes:", error);
@@ -161,7 +167,9 @@ export const fetchNumberOfLikes = async (postId: number) => {
 
 export const setLikeState = async (postId: number, like: boolean) => {
   try {
-    await axios.post(`${BASE_URL}/post/${postId}/like`, { like });
+    const likeValue = like ? true : false;
+
+    await axios.post(`${BASE_URL}/post/${postId}/like`, { like: likeValue });
   } catch (error) {
     console.error("Error updating like:", error);
     throw error;

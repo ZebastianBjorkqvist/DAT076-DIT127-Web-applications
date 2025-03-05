@@ -4,7 +4,7 @@ import "../styles/feed.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
-import { fetchNumberOfLikes, setLikeState } from "../api"; // Assuming these API functions are available
+import { fetchLike, LikeData, setLikeState } from "../api";
 
 interface FeedCardProps {
   title: string;
@@ -21,10 +21,12 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
-        const data = await fetchNumberOfLikes(postId);
-        setLikeCount(data);
+        const data: LikeData = await fetchLike(postId);
+
+        setLikeCount(data.likeCount);
         setLiked(data.userLiked);
       } catch (error) {
+        console.error("Failed to fetch like data:", error);
         setError("Failed to fetch like data");
       }
     };
@@ -33,16 +35,17 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
   }, [postId]);
 
   const handleLike = async () => {
-    const newLiked = !liked;
-    setLiked(newLiked);
-    setLikeCount((prev) => (newLiked ? prev + 1 : prev - 1));
-
     try {
+      const newLiked = !liked;
+      setLiked(newLiked);
+      setLikeCount((prev) => (newLiked ? prev + 1 : prev - 1));
+
       await setLikeState(postId, newLiked);
     } catch (error) {
+      console.error("Failed to update like:", error);
+      setLiked(liked);
+      setLikeCount((prev) => (liked ? prev + 1 : prev - 1));
       setError("Failed to update like");
-      setLiked(!newLiked);
-      setLikeCount((prev) => (newLiked ? prev - 1 : prev + 1));
     }
   };
 
@@ -56,7 +59,6 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
           <img src={UserIcon} alt="User Icon" className="img" width="50" />
         </Col>
       </Row>
-
       <Row>
         <Col className="text-start">
           <p className="post-card-topic-text">
@@ -64,11 +66,9 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
           </p>
         </Col>
       </Row>
-
       <Row className="post-card-text">
         <p>{text}</p>
       </Row>
-
       <Row className="post-card-footer">
         <Col className="d-flex justify-content-start align-items-center">
           <Button
@@ -81,7 +81,6 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
           <span>{likeCount} Likes</span>{" "}
         </Col>
       </Row>
-
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );

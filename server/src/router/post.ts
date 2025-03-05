@@ -85,18 +85,22 @@ postRouter.post(
   }
 );
 
+interface LikeDataRequest extends Request {
+  session: any;
+}
+
 postRouter.get(
   "/:postId/likes",
   isAuthenticated,
-  async (req: Request, res: Response) => {
+  async (req: LikeDataRequest, res: Response) => {
     try {
       const postId = parseInt(req.params.postId);
       if (isNaN(postId)) {
         res.status(400).send("Invalid post ID");
       }
 
-      const likes = postService.getNumOfLikes(postId);
-      res.status(200).json(likes);
+      const likes = await postService.getLikeData(postId, req.session.username);
+      res.status(200).send(likes);
     } catch (e: any) {
       res.status(500).send(e.message);
     }

@@ -16,19 +16,10 @@ import SearchComponent from "../components/searchComponent";
 
 const FeedPage = () => {
   const navigate = useNavigate();
-  //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const authContext = useAuth();
 
-  /*
-  const arr = {
-    posts: [
-      { title: "first post", text: "first text" },
-      { title: "second post", text: "second text" },
-    ],
-  };
-  */
   const searchTopic = async (topic: string) => {
     console.log("searching for topic: ", topic);
     try {
@@ -54,24 +45,21 @@ const FeedPage = () => {
 
   useEffect(() => {
     if (!authContext.isAuthenticated) {
-      //setIsAuthenticated(false);
       setMessage(
         "You need to be logged in to access this page. Redirecting..."
       );
     } else {
       loadPosts();
     }
-  }, []);
+  }, [authContext.isAuthenticated]);
 
   return authContext.isAuthenticated ? (
     <div className="feed-page size_and_colors w-100">
       <Container fluid className="sticky-top">
         <MainHeader />
       </Container>
-
       <Container fluid className="mt-3 post-container">
         <Row>
-          {/* Full-width feed content */}
           <Col xs={2} className="sidebar"></Col>
           <Col xs={8} className="p-4">
             <Container>
@@ -79,6 +67,7 @@ const FeedPage = () => {
               <h2 className="header-text">Welcome to the feed!</h2>
               {posts.map((post) => (
                 <FeedCard
+                  key={post.id}
                   title={post.title}
                   text={post.text}
                   topics={post?.topics ?? []}
@@ -90,8 +79,6 @@ const FeedPage = () => {
           <Col xs={2} className="sidebar"></Col>
         </Row>
       </Container>
-
-      {/* floating icon for create post in bottom right corner */}
       <div className="floating-icon">
         <Button
           className="btn-custom"
