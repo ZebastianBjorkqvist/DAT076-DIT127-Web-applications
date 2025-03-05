@@ -114,3 +114,18 @@
     margin: 10px;
   }
  
+
+
+  /*Choose topics*/
+
+  .row-TopicCard {
+    padding: 5px;
+    margin: 5px;
+    width: fit-content;
+    background-color: #E5DCDF;
+    display: inline-flex;   /* ✅ Use inline-flex for better fit-content behavior */
+    flex-wrap: wrap;        /* ✅ Allow items to wrap if there is no space */
+    align-items: center;    /* ✅ Center items vertically */
+    gap: 5px;               /* ✅ Add space between items */
+    border-radius: 5px;     /* ✅ Optional: Rounded corners for a better look */
+}

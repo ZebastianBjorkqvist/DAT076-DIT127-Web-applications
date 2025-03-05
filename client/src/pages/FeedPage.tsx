@@ -16,19 +16,26 @@ import SearchComponent from "../components/searchComponent";
 
 const FeedPage = () => {
   const navigate = useNavigate();
+  const [title, setTitle] = useState<string>("Welcome to the feed!")
   const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const authContext = useAuth();
 
   const searchTopic = async (topic: string) => {
-    console.log("searching for topic: ", topic);
+    if(topic.length === 0 ){
+      const ts = await getPosts();
+      setPosts(ts);
+      setTitle("All posts");
+      return;
+    }
     try {
       const ts = await getPostByTopic(topic);
+      setPosts(ts);
       if (ts.length === 0) {
-        console.log("No posts found for topic: ", topic);
+        setTitle("No posts found with topic: " + topic)
         return;
       }
-      setPosts(ts);
+      setTitle("Topic: " + topic)
     } catch (error) {
       console.error("Failed to load posts:", error);
     }
@@ -64,7 +71,7 @@ const FeedPage = () => {
           <Col xs={8} className="p-4">
             <Container>
               <SearchComponent onSearch={searchTopic} />
-              <h2 className="header-text">Welcome to the feed!</h2>
+              <h2 className="header-text">{title}</h2>
               {posts.map((post) => (
                 <FeedCard
                   key={post.id}

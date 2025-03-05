@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import MainHeader from '../components/mainHeader';
 import '../styles/CreatePost.css'
 import { useNavigate } from 'react-router-dom'
-import { createPost} from '../api';
+import { createPost } from '../api';
 import RedirectComponent from '../components/redirectComponent';
 import { useAuth } from '../context/AuthContext';
 import ChooseTopics from '../components/chooseTopics';
@@ -11,13 +11,13 @@ export function CreatePost() {
   const [postContent, setPostContent] = useState<string>("");
   const [postTitle, setPostTitle] = useState<string>("");
   const [topics, setTopics] = useState<string[]>([]);
-  const [alert, setAlert] = useState({message: "", type: ""});
+  const [alert, setAlert] = useState({ message: "", type: "" });
   //const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
   const authContext = useAuth();
   const [resetKey, setResetKey] = useState<number>(0);
-  
+
 
   const handlePostSubmit = async () => {
     if (!postContent.trim() || !postTitle.trim()) {
@@ -45,7 +45,7 @@ export function CreatePost() {
     if (!authContext.isAuthenticated) {
       //setIsAuthenticated(false);
       setMessage("You need to be logged in to access this page. Redirecting...");
-    } 
+    }
   }, []);
 
   return authContext.isAuthenticated ? (
@@ -70,7 +70,7 @@ export function CreatePost() {
         />
         <ChooseTopics key={resetKey} onTopicsUpdate={function (topics: string[]): void {
           setTopics(topics);
-        } } />
+        }} />
         <textarea
           className="form-control mb-3"
           rows={6}
@@ -95,8 +95,8 @@ export function CreatePost() {
         </div>
       </div>
     </>
-  ):
-  <RedirectComponent message={message} url="" />;
+  ) :
+    <RedirectComponent message={message} url="" />;
 }
 
 export default CreatePost;

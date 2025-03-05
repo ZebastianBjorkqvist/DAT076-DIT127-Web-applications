@@ -23,7 +23,6 @@ function SearchComponent({ onSearch }: SearchComponentProps) {
 
     return (
         <div className="mb-3">
-            <Form>
                 <Form.Group as={Row} className="align-items-center">
                     <Form.Label column sm="2" className="text-left">
                         Search topics
@@ -47,7 +46,6 @@ function SearchComponent({ onSearch }: SearchComponentProps) {
                         </InputGroup>
                     </Col>
                 </Form.Group>
-            </Form>
         </div>
     );
 }
