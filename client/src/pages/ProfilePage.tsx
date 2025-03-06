@@ -12,7 +12,7 @@ function ProfilePage() {
     const [username, setUsername] = useState('Cannot find username');
     const [email, setEmail] = useState('Cannot find email');
     const authContext = useAuth();
-    const [amtLikes, setamtLikes] = useState('Cannot load likes')
+    const [amtLikes, setamtLikes] = useState('Cannot load your likes')
     const [amtPosts, setamtPosts] = useState('Cannot load your posts')
     
 
@@ -28,11 +28,33 @@ function ProfilePage() {
                 setUsername(user.username);
                 setEmail(user.email);
                 setamtLikes('10');
-                setamtPosts('20')
+                setamtPosts('10')
             }
         });
     }, []);
 
+    const getLikesMessage = (likes: string): string => {
+        const likesNumber = Number(likes);
+        if (!isNaN(likesNumber)) {
+            if (likesNumber === 0) {
+                return "You have not yet liked any posts on Chatter."
+            }
+          return `You have liked ${likesNumber} posts on Chatter!`;
+        }
+        return 'Cannot load your likes';
+      };
+
+      const getPostsMessage = (posts: string): string => {
+        const postsNumber = Number(posts);
+        if (!isNaN(postsNumber)) {
+            if (postsNumber === 0) {
+                return "You have not yet written any posts on Chatter."
+            }
+          return `You have created ${postsNumber} posts on Chatter!`;
+        }
+        return 'Cannot load your posts';
+      };
+      
     return authContext.isAuthenticated ? (
         <>
             <MainHeader />
@@ -41,7 +63,7 @@ function ProfilePage() {
                 <h1 className="text-center">Profile</h1>
                 <Row className="mt-5" style={{ maxWidth: '700px', width: '100%', padding: '20px', backgroundColor: '#E5DCDF' }}>
 
-                    <Col md={4} className="text-center" style={{ paddingTop: '10px' }}>
+                    <Col md={4} className="text-center" style={{ paddingTop: '10px'}}>
                         <img
                             src={UserIcon}
                             alt="User Icon"
@@ -56,9 +78,9 @@ function ProfilePage() {
                         <h4>Email</h4>
                         <p>{email}</p>
                         <h4>Your likes</h4>
-                        <p>You have liked {amtLikes} posts on Chatter</p>
+                        <p>{getLikesMessage(amtLikes)}</p>
                         <h4>Your posts</h4>
-                        <p>You have written {amtPosts} posts on Chatter!</p>
+                        <p>{getPostsMessage(amtPosts)}</p>
                     </Col>
                 </Row>
             </Container>
