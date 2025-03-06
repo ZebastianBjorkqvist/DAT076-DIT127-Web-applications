@@ -13,13 +13,14 @@ import axios from "axios";
 //import { checkAuth } from "../api";
 
 import CreateUser from "./CreateUser";
+import { createUser } from "../api";
 jest.mock("axios");
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+//const mockedAxios = axios as jest.Mocked<typeof axios>;
   
   //Mock-API
 jest.mock("../api", () => ({
     checkAuth: jest.fn(),
-    createPost: jest.fn(),
+    createUser: jest.fn(),
 }));
 
 
@@ -34,7 +35,7 @@ jest.mock("react-router-dom", () => ({
   
 
 
-describe("Create User", () => {
+describe("Create User tests", () => {
 
     let mock: MockAdapter;
 
@@ -67,14 +68,14 @@ describe("Create User", () => {
 
     });
 
-    test("Navbar logo button reloads feedpage", () => {
+    test("Login-button navigates correctly to login page", () => {
         render(
             <MemoryRouter>
               <CreateUser />
             </MemoryRouter>
           );
       
-          // Find the button for creating a post
+          // Find the link to the login page
           const LoginButton = screen.getByTestId("login-btn");
           
   
@@ -88,7 +89,7 @@ describe("Create User", () => {
         });
     })
 
-    test("sends correct login data to backend", async () => {
+    test("handles creation of valid user correctly", async () => {
         render(
           <MemoryRouter>
             <CreateUser />
@@ -111,18 +112,15 @@ describe("Create User", () => {
 
         });
 
-        fireEvent.click(createUserBtn);
+      (createUser as jest.Mock).mockResolvedValueOnce({ username: "zeb", password: "123", email: "hej@gmail.com" });
+      fireEvent.click(createUserBtn);
     
-        await waitFor(() => {
-          expect(mockedAxios.post).toHaveBeenCalledWith(
-            "http://localhost:8080/user",
-            {
-              username: "zeb",
-              password: "123",
-              email: "hej@gmail.com"
-            }
-          );
+      // Wait for navigation to be triggered
+        waitFor(() => {
+          expect(mockNavigate).toHaveBeenCalledTimes(1);
+          expect(mockNavigate).toHaveBeenCalledWith("./");
         });
+
       });
 
 });
