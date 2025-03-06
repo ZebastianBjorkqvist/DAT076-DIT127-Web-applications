@@ -27,8 +27,8 @@ function ProfilePage() {
             } else {
                 setUsername(user.username);
                 setEmail(user.email);
-                setamtLikes('10');
-                setamtPosts('10')
+                setamtLikes(user.numbr_of_likes.toString());
+                setamtPosts(user.numbr_of_posts.toString())
             }
         });
     }, []);
@@ -39,7 +39,7 @@ function ProfilePage() {
             if (likesNumber === 0) {
                 return "You have not yet liked any posts on Chatter."
             }
-          return `You have liked ${likesNumber} posts on Chatter!`;
+          return `You have ${likesNumber} likes on Chatter!`;
         }
         return 'Cannot load your likes';
       };

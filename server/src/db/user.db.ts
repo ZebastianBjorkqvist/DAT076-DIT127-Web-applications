@@ -1,5 +1,6 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes, ForeignKey } from 'sequelize';
+import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes} from 'sequelize';
 import { sequelize } from './conn';
+import { PostModel } from './post.db';
 
 export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
   declare id: CreationOptional<number>;
@@ -13,20 +14,20 @@ UserModel.init(
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: false,
-      primaryKey: true
+      primaryKey: true,
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     username: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false
-    }
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,

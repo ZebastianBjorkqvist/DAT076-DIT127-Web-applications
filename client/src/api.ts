@@ -20,6 +20,8 @@ export type User = {
 export type CurrentUser = {
   username: string;
   email: string;
+  numbr_of_posts: number;
+  numbr_of_likes: number;
 };
 
 export type LikeData = {
@@ -147,7 +149,7 @@ export async function getCurrentUser(): Promise<CurrentUser | undefined> {
     if (response.status !== 200) {
       throw new Error(response.statusText);
     }
-    return response.data;
+    return response.data; 
   } catch (e: any) {
     console.log("Failed to get current user: ", e.message);
     return undefined;

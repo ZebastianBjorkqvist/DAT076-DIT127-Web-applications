@@ -19,7 +19,12 @@ userRouter.get("/current", async (req: UserRequest, res: Response) => {
           res.status(401).send("Not authenticated");
           return;
         }
-        res.status(200).send({username: user.username, email: user.email});
+        res.status(200).send({
+          username: user.username,
+          email: user.email,
+          numbr_of_posts: user.numbr_of_posts ?? 0,
+          numbr_of_likes: user.numbr_of_likes
+        });
       });
     } else {
       res.status(401).send("Not authenticated");
@@ -37,8 +42,7 @@ userRouter.post("/", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${
-            req.originalUrl
+          `Bad PUT call to ${req.originalUrl
           } --- email has type ${typeof email}`
         );
       return;
@@ -49,8 +53,7 @@ userRouter.post("/", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${
-            req.originalUrl
+          `Bad PUT call to ${req.originalUrl
           } --- password has type ${typeof password}`
         );
       return;
@@ -61,8 +64,7 @@ userRouter.post("/", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${
-            req.originalUrl
+          `Bad PUT call to ${req.originalUrl
           } --- username has type ${typeof username}`
         );
       return;
@@ -83,8 +85,7 @@ userRouter.post("/login", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${
-            req.originalUrl
+          `Bad PUT call to ${req.originalUrl
           } --- username has type ${typeof username}`
         );
       return;
@@ -94,8 +95,7 @@ userRouter.post("/login", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${
-            req.originalUrl
+          `Bad PUT call to ${req.originalUrl
           } --- password has type ${typeof password}`
         );
       return;

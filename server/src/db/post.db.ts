@@ -21,6 +21,9 @@ export class PostModel extends Model<
   declare likedBy: string[];
 }
 
+
+
+
 PostModel.init(
   {
     id: {
