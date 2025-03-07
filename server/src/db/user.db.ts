@@ -1,6 +1,5 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes} from 'sequelize';
-import { sequelize } from './conn';
-import { PostModel } from './post.db';
+import { conn } from './conn';
 
 export class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
   declare id: CreationOptional<number>;
@@ -30,6 +29,6 @@ UserModel.init(
     },
   },
   {
-    sequelize,
+    sequelize: conn,
   }
 );

@@ -1,5 +1,3 @@
-import { where } from "sequelize";
-import { sequelize } from "../db/conn";
 import { PostModel } from "../db/post.db";
 import { UserModel } from "../db/user.db";
 import { User } from "../model/user";

@@ -6,7 +6,7 @@ import {
   DataTypes,
   ForeignKey,
 } from "sequelize";
-import { sequelize } from "./conn";
+import { conn } from "./conn";
 import { UserModel } from "./user.db";
 
 export class PostModel extends Model<
@@ -53,6 +53,6 @@ PostModel.init(
     },
   },
   {
-    sequelize,
+    sequelize: conn,
   }
 );
