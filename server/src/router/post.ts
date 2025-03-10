@@ -2,7 +2,6 @@ import express, { Request, Response, Router } from "express";
 import { PostService } from "../service/post";
 import { Post } from "../model/post";
 import { isAuthenticated } from "../middleware/authMiddleware";
-import { Json } from "sequelize/types/utils";
 
 const postService: PostService = new PostService();
 

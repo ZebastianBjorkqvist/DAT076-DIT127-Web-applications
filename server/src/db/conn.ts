@@ -1,6 +1,8 @@
 import { Sequelize } from 'sequelize';
+import * as dotenv from 'dotenv';
 
 export let conn: Sequelize;
+dotenv.config();
 
 if (process.env.NODE_ENV === "test") {
     conn = new Sequelize({
