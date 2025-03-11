@@ -58,7 +58,7 @@ function FeedCard({ title, text, topics = [], postId, user }: FeedCardProps) {
         </Col>
         <Col className="justify-content-end d-flex align-items-center">
           <img src={UserIcon} alt="User Icon" className="img" width="50" />
-          <header> {user}</header>
+          <header style={{margin: 10}}> {user}</header>
         </Col>
       </Row>
       <Row>
