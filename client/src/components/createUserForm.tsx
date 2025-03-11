@@ -26,9 +26,14 @@ const CreateUserForm = () => {
       setPassword("");
       setNotification("User created successfully!");
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
+      if(error.status === 409){
+        setNotification("Username already exists. Please try again with a different username.");
+        return
+      } 
       setNotification("Failed to create user. Please try again.");
       console.error("Failed to create user:", error);
+      console.error(error);
     }
   };
 

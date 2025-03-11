@@ -73,6 +73,10 @@ userRouter.post("/", async (req: UserRequest, res: Response) => {
     const newUser = await userService.createUser(email, password, username);
     res.status(201).send(newUser);
   } catch (e: any) {
+    if (e.message === "Username already exists") {
+      res.status(409).send(e.message);
+      return;
+    }
     res.status(500).send(e.message);
   }
 });

@@ -79,8 +79,8 @@ export async function createUser(
   email: string,
   pass: string,
   usr: string
-): Promise<User | string> {
-  try {
+): Promise<User> {
+
     const response = await axios.post<User>(`${BASE_URL}/user`, {
       email: email,
       password: pass,
@@ -90,14 +90,8 @@ export async function createUser(
       throw new Error(response.statusText);
     }
     return response.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log("Failed creating a user: ", error.message);
-      return error.message;
-    }
-    return "Something went wrong creating a user";
   }
-}
+
 
 export enum LoginResult {
   SUCCESS,
