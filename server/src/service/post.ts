@@ -5,7 +5,11 @@ import { Op } from "sequelize";
 
 export class PostService {
   async getPosts(): Promise<Post[]> {
-    const posts = await PostModel.findAll();
+    const posts = await PostModel.findAll({
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    });
     return posts;
   }
 
