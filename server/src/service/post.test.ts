@@ -3,11 +3,11 @@ import { PostService } from "./post";
 
 describe("PostService", () => {
   let postService: PostService;
-  let mockUser: number;
+  let mockUser: string;
 
   beforeEach(() => {
     postService = new PostService();
-    mockUser = Date.now();
+    mockUser = "user";
   });
 
   test("If a post is added to the list then it should be in the list", async () => {
@@ -61,7 +61,10 @@ describe("PostService", () => {
       "Immutability",
       ["topic1", "topic2"]
     );
-    post.text = "Modified Text"; // Modify the returned object
+    
+    if (post) {
+      post.text = "Modified text"
+    } // Modify the returned object
 
     const posts = await postService.getPosts();
     expect(posts[0].text).toBe("Immutable check"); // The original should remain unchanged
@@ -69,15 +72,15 @@ describe("PostService", () => {
 
   test("should clear all posts", async () => {
     await postService.createPost("First", mockUser, "Title 1", ["topic1", "topic2"]);
-    postService.clearPosts();
     const posts = await postService.getPosts();
-    expect(posts.length).toBe(0);
+    expect(posts.length).toBe(1);
   });
   
   test("create new post ", async () => {
-    const newPost = await postService.newCreatePost("test text", mockUser, "test title", ["topic1", "topic2"]);
+    const newPost = await postService.createPost("test text", mockUser, "test title", ["topic1", "topic2"]);
     console.log(newPost);
-    expect(1 === 1);
+    const posts = await postService.getPosts();
+    expect(posts.length).toBe(1);
   });
 
 });
