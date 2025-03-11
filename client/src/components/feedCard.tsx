@@ -11,9 +11,10 @@ interface FeedCardProps {
   text: string;
   topics?: string[];
   postId: number;
+  user: string;
 }
 
-function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
+function FeedCard({ title, text, topics = [], postId, user }: FeedCardProps) {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [liked, setLiked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,8 +56,9 @@ function FeedCard({ title, text, topics = [], postId }: FeedCardProps) {
         <Col>
           <header className="header-text">{title}</header>
         </Col>
-        <Col>
+        <Col className="justify-content-end d-flex align-items-center">
           <img src={UserIcon} alt="User Icon" className="img" width="50" />
+          <header> {user}</header>
         </Col>
       </Row>
       <Row>

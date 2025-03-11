@@ -79,6 +79,7 @@ const FeedPage = () => {
                   text={post.text}
                   topics={post?.topics ?? []}
                   postId={post.id}
+                  user={post.author}
                 />
               ))}
             </Container>
