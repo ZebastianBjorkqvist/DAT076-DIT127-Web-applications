@@ -1,5 +1,9 @@
-import { initDB } from "./src/db/conn"
+import { closeDB, initDB } from "./src/db/conn"
 
-beforeAll(async () => {
-    initDB();
-})
+beforeEach(async () => {
+    await initDB(true);
+});
+
+afterEach(async () => {
+    //await closeDB();
+});
