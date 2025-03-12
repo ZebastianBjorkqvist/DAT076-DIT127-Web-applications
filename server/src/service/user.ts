@@ -3,8 +3,6 @@ import { UserModel } from "../db/user.db";
 import { User } from "../model/user";
 import bcrypt from "bcrypt";
 export class UserService {
-
-
   async createUser(email: string, password: string, username: string) {
     try {
       const salt = bcrypt.genSaltSync(10);
@@ -13,12 +11,12 @@ export class UserService {
         email: email,
         password: bcrypt.hashSync(password, salt),
         username: username,
-        numbr_of_posts: 0
+        numbr_of_posts: 0,
       };
 
       const newUser = await UserModel.create(user);
 
-      return newUser;
+      return newUser.toJSON();
     } catch (err: any) {
       if (err.name === "SequelizeUniqueConstraintError") {
         throw new Error("Username already exists");
@@ -27,7 +25,9 @@ export class UserService {
   }
 
   async getNumbrOfPosts(username: string): Promise<number> {
-    const numbr_of_posts = await PostModel.count({ where: { author: username } });
+    const numbr_of_posts = await PostModel.count({
+      where: { author: username },
+    });
     return numbr_of_posts;
   }
 
@@ -46,7 +46,7 @@ export class UserService {
   async findUser(usr: string, pass?: string): Promise<User | undefined> {
     const user_response = await UserModel.findOne({ where: { username: usr } });
     if (!user_response) {
-      return undefined
+      return undefined;
     }
     const numbr_of_posts = await this.getNumbrOfPosts(user_response.username);
 
@@ -57,6 +57,19 @@ export class UserService {
     if (!pass) {
       return user;
     }
-    return await bcrypt.compare(pass, user_response.password) ? user : undefined;
+    return (await bcrypt.compare(pass, user_response.password))
+      ? user
+      : undefined;
+  }
+
+  async deleteAllUsers(): Promise<boolean> {
+    try {
+      // Delete all users from the database
+      await UserModel.destroy({ where: {} }); // Empty `where` clause deletes all rows
+      return true;
+    } catch (err: any) {
+      console.error("Failed to delete all users:", err.message);
+      return false;
+    }
   }
 }
