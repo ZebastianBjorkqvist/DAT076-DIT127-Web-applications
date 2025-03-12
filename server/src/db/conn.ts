@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "test") {
   conn = new Sequelize({
     dialect: "sqlite",
     storage: ":memory:",
-    logging: false, // Disable logging for cleaner test output
+    logging: false,
   });
 } else {
   if (!process.env.DB_URL) {
@@ -18,5 +18,10 @@ if (process.env.NODE_ENV === "test") {
 }
 
 export async function initDB() {
-  await conn.sync({ alter: true });
+  try {
+    await conn.sync({ alter: true, force: false });
+  } catch (error) {
+    console.error("Error initializing database:", error);
+    throw error;
+  }
 }
