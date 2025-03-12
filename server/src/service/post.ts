@@ -1,14 +1,11 @@
 import { InferCreationAttributes } from "sequelize";
 import { PostModel } from "../db/post.db";
 import { Post } from "../model/post";
-import { Op } from "sequelize";
 
 export class PostService {
   async getPosts(): Promise<Post[]> {
     const posts = await PostModel.findAll({
-      order: [
-        ['createdAt', 'DESC']
-      ]
+      order: [["createdAt", "DESC"]],
     });
     return posts;
   }
@@ -27,16 +24,23 @@ export class PostService {
       topics: topics,
     } as InferCreationAttributes<PostModel>);
 
-    // Fetch the post with topics included
     const post = await PostModel.findByPk(newPost.id);
     return post ? post : undefined;
   }
 
-  async getPostsByTopic(topic: string): Promise<Post[]> {
-    const posts = await PostModel.findAll({
-      where: { topics: { [Op.contains]: [topic] } },
-    });
-    return posts;
+  async getPostsByTopic(topic: string): Promise<PostModel[]> {
+    try {
+      const allPosts = await PostModel.findAll();
+
+      const filteredPosts = allPosts.filter((post) =>
+        post.topics.includes(topic)
+      );
+
+      return filteredPosts;
+    } catch (error) {
+      console.error("Error fetching posts by topic:", error);
+      throw error;
+    }
   }
 
   async updateLike(
@@ -82,5 +86,15 @@ export class PostService {
     const liked: boolean = post.likedBy.includes(username);
 
     return { likeCount: count, userLiked: liked };
+  }
+
+  async deleteAllPosts(): Promise<boolean> {
+    try {
+      await PostModel.destroy({ where: {} }); // Empty `where` clause deletes all rows
+      return true;
+    } catch (e) {
+      console.error("Error deleting all posts:", e);
+      return false;
+    }
   }
 }
