@@ -1,26 +1,28 @@
 import * as SuperTest from "supertest";
 import { app } from "../start";
+import { initDB } from "../db/conn";
 
 const request = SuperTest.default(app);
 let cookie: string[];
 let postId: number;
 
-beforeEach(async () => {
-  await request.delete("/post/reset");
-});
-
 beforeAll(async () => {
+  await initDB();
+
   const testUserInput = {
     email: "test.user@gmail.com",
     password: "testpass",
-    username: "testusername",
+    username: "testuser",
   };
   await request.post("/user").send(testUserInput);
-  const loginData = { username: "testusername", password: "testpass" };
+  const loginData = { username: "testuser", password: "testpass" };
   const res = await request.post("/user/login").send(loginData);
   cookie = res.get("Set-Cookie") as string[];
   expect(cookie).toBeTruthy();
+});
 
+beforeEach(async () => {
+  const res = await request.delete("/post/reset").set("Cookie", cookie);
   const newPostInput = {
     text: "New Post",
     title: "New Title",
@@ -39,7 +41,7 @@ test("POST /post - should create a new post", async () => {
   const newPostInput = {
     text: "New Post",
     title: "New Title",
-    author: Date.now(),
+    topics: ["test"],
   };
 
   const res = await request
@@ -49,30 +51,29 @@ test("POST /post - should create a new post", async () => {
   expect(res.statusCode).toBe(201);
   expect(res.body.text).toEqual(newPostInput.text);
   expect(res.body.title).toEqual(newPostInput.title);
-  expect(res.body.author).toEqual(newPostInput.author);
+  expect(res.body.topics).toEqual(newPostInput.topics);
 });
 
 test("GET /post - should return all posts", async () => {
   const newPostInput = {
-    text: "New Post",
-    title: "New Title",
-    author: Date.now(),
+    text: "all Post",
+    title: "all Title",
+    topics: ["test"],
   };
 
   await request.post("/post").set("Cookie", cookie).send(newPostInput);
   await request.post("/post").set("Cookie", cookie).send(newPostInput);
 
   const res = await request.get("/post").set("Cookie", cookie);
-
   expect(res.statusCode).toBe(200);
-  expect(res.body.length).toEqual(2);
+  expect(res.body.length).toEqual(3); //3 because all tests start with one post from beforeEach
 });
 
 test("POST /post - should return 400 for invalid text input", async () => {
   const invalidPostInput = {
-    text: 123, // Invalid type
+    text: 123,
     title: "New Title",
-    author: Date.now(),
+    topics: ["test"],
   };
 
   const res = await request
@@ -81,14 +82,14 @@ test("POST /post - should return 400 for invalid text input", async () => {
     .send(invalidPostInput);
 
   expect(res.statusCode).toBe(400);
-  expect(res.text).toContain("Bad PUT call to");
+  expect(res.text).toContain("text should be a string");
 });
 
 test("POST /post - should return 400 for invalid title input", async () => {
   const invalidPostInput = {
     text: "New Post",
-    title: 123, // Invalid type
-    author: Date.now(),
+    title: 123,
+    topics: ["test"],
   };
 
   const res = await request
@@ -97,21 +98,23 @@ test("POST /post - should return 400 for invalid title input", async () => {
     .send(invalidPostInput);
 
   expect(res.statusCode).toBe(400);
-  expect(res.text).toContain("Bad PUT call to");
+  expect(res.text).toContain("title should be a string");
 });
 
 test("DELETE /post/reset - should delete all posts", async () => {
   const newPostInput = {
     text: "New Post",
     title: "New Title",
-    author: Date.now(),
+    topics: ["test"],
   };
 
   await request.post("/post").set("Cookie", cookie).send(newPostInput);
   const getPostRes = await request.get("/post").set("Cookie", cookie);
-  expect(getPostRes.body.length).toEqual(1);
+  expect(getPostRes.body.length).toEqual(2);
 
-  const deletePostRes = await request.delete("/post/reset");
+  const deletePostRes = await request
+    .delete("/post/reset")
+    .set("Cookie", cookie);
   expect(deletePostRes.statusCode).toBe(200);
 
   const getPostRes2 = await request.get("/post").set("Cookie", cookie);
@@ -147,7 +150,7 @@ test("GET /post/:postId/likes - should return like data", async () => {
   const res = await request.get(`/post/${postId}/likes`).set("Cookie", cookie);
 
   expect(res.statusCode).toBe(200);
-  expect(res.body).toHaveProperty("likes");
+  expect(res.body).toHaveProperty("likeCount");
 });
 
 test("POST /post/:postId/like - should return 400 for invalid like value", async () => {
