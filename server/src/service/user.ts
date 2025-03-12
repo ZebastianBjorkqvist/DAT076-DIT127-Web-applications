@@ -16,7 +16,7 @@ export class UserService {
 
       const newUser = await UserModel.create(user);
 
-      return newUser.toJSON();
+      return newUser;
     } catch (err: any) {
       if (err.name === "SequelizeUniqueConstraintError") {
         throw new Error("Username already exists");
