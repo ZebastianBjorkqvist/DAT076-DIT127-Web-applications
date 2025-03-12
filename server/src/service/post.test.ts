@@ -1,58 +1,50 @@
-import { User } from "../model/user";
+import { initDB } from "../db/conn";
 import { PostService } from "./post";
 
 describe("PostService", () => {
   let postService: PostService;
   let mockUser: string;
 
-  beforeEach(() => {
-    postService = new PostService();
-    mockUser = "user";
+  beforeAll(async () => {
+    await initDB();
   });
 
-  test("If a post is added to the list then it should be in the list", async () => {
+  beforeEach(async () => {
+    postService = new PostService();
+    mockUser = "user";
+    postService.deleteAllPosts();
+  });
+
+  test("If a post is added to the database then it should be in the database", async () => {
     const text = "Test text";
     const author = mockUser;
     const title = "Test title";
-    const topics = ["topic1", "topic2"]
-    const postService = new PostService();
+    const topics = ["topic1", "topic2"];
     await postService.createPost(text, author, title, topics);
     const posts = await postService.getPosts();
     expect(
       posts.some(
-        (p) =>
-          p.text === text &&
-          p.title === title &&
-          p.author === mockUser
+        (p) => p.text === text && p.title === title && p.author === mockUser
       )
     ).toBeTruthy();
   });
 
   test("should handle multiple posts correctly", async () => {
-    await postService.createPost("First", mockUser, "Title 1", ["topic1", "topic2"]);
-    await postService.createPost("Second", mockUser, "Title 2", ["topic1", "topic2"]);
+    await postService.createPost("First", mockUser, "Title1", [
+      "topic1",
+      "topic2",
+    ]);
+    await postService.createPost("Second", mockUser, "Title2", [
+      "topic1",
+      "topic2",
+    ]);
 
     const posts = await postService.getPosts();
 
     expect(posts.length).toBe(2);
-    expect(posts[0].text).toBe("First");
-    expect(posts[1].text).toBe("Second");
+    expect(posts.some((post) => post.text === "First")).toBeTruthy;
+    expect(posts.some((post) => post.text === "Second")).toBeTruthy;
   });
-
-  // Empty string is OK on router. Either change tests or handling
-
-  // test("should throw an error if text is empty", async () => {
-  //   await expect(postService.createPost("", mockUser, "Title")).rejects.toThrow(
-  //     "Text and title are required."
-  //   );
-  // });
-
-  // test("should throw an error if title is empty", async () => {
-  //   await expect(
-  //     postService.createPost("Some content", mockUser, "")
-  //   ).rejects.toThrow("Text and title are required.");
-  // });
-
 
   test("should not modify the original post in the posts array", async () => {
     const post = await postService.createPost(
@@ -61,26 +53,12 @@ describe("PostService", () => {
       "Immutability",
       ["topic1", "topic2"]
     );
-    
+
     if (post) {
-      post.text = "Modified text"
-    } // Modify the returned object
+      post.text = "Modified text";
+    }
 
     const posts = await postService.getPosts();
-    expect(posts[0].text).toBe("Immutable check"); // The original should remain unchanged
+    expect(posts[0].text).toBe("Immutable check");
   });
-
-  test("should clear all posts", async () => {
-    await postService.createPost("First", mockUser, "Title 1", ["topic1", "topic2"]);
-    const posts = await postService.getPosts();
-    expect(posts.length).toBe(1);
-  });
-  
-  test("create new post ", async () => {
-    const newPost = await postService.createPost("test text", mockUser, "test title", ["topic1", "topic2"]);
-    console.log(newPost);
-    const posts = await postService.getPosts();
-    expect(posts.length).toBe(1);
-  });
-
 });

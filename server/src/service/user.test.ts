@@ -1,22 +1,61 @@
-import { UserModel } from "../db/user.db";
-import { User } from "../model/user";
+import { initDB } from "../db/conn";
 import { UserService } from "./user";
 
-let userCpy = {} as UserModel;
-let userCpy2 = {} as User
-const userService = new UserService();
+describe("UserService", () => {
+  let userService: UserService;
+  let mockEmail: string;
+  let mockPassword: string;
+  let mockUsername: string;
 
-test("If a user is added, it should exist", async () => {
-  const user = await userService.createUser("email", "password", "username");
-  if (user) {
-    const response = await userService.findUser(user.username);
-    userCpy = user;
-    expect(user.email == response?.email).toBeTruthy();
-  }
-});
+  beforeAll(async () => {
+    await initDB();
+  });
 
-test("If a new user is created, it should replace the old one", async () => {
-  await userService.createUser("mail", "passwd", "usrnme");
-  const response = await userService.findUser("usrnme");
-  expect(userCpy2 != response).toBeTruthy();
+  beforeEach(async () => {
+    userService = new UserService();
+    mockEmail = "test.user@gmail.com";
+    mockPassword = "testpass";
+    mockUsername = "testusername";
+    await userService.deleteAllUsers();
+  });
+
+  test("If a user is created it should exist in the database", async () => {
+    const user = await userService.createUser(
+      mockEmail,
+      mockPassword,
+      mockUsername
+    );
+
+    if (user) {
+      const foundUser = await userService.findUser(user.username);
+      expect(foundUser?.email).toBe(mockEmail);
+      expect(foundUser?.username).toBe(mockUsername);
+    }
+  });
+
+  test("should return the correct number of posts for a user", async () => {
+    const user = await userService.createUser(
+      mockEmail,
+      mockPassword,
+      mockUsername
+    );
+
+    if (user) {
+      const numbrOfPosts = await userService.getNumbrOfPosts(user.username);
+      expect(numbrOfPosts).toBe(0);
+    }
+  });
+
+  test("should return the correct number of likes for a user", async () => {
+    const user = await userService.createUser(
+      mockEmail,
+      mockPassword,
+      mockUsername
+    );
+
+    if (user) {
+      const numbrOfLikes = await userService.getNumbrOfLikes(user.username);
+      expect(numbrOfLikes).toBe(0);
+    }
+  });
 });
