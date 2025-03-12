@@ -117,27 +117,56 @@ postRouter.post(
   async (req: LikePostRequest, res: Response) => {
     try {
       const postId = parseInt(req.params.postId);
-      const like = JSON.parse(req.body.like);
+      let like;
+      try {
+        like = JSON.parse(req.body.like);
+      } catch {
+        res.status(400).send("Invalid like value");
+        return;
+      }
       const username = req.session.username;
 
       if (isNaN(postId)) {
         res.status(400).send("Invalid post ID");
+        return;
       }
 
       if (typeof like !== "boolean") {
         res.status(400).send("Invalid like value");
+        return;
       }
 
       if (!username) {
         res.status(401).send("Not logged in");
+        return;
       }
 
       const updated = await postService.updateLike(postId, username, like);
       if (!updated) {
         res.status(500).send("Could not update like status");
+        return;
       }
 
       res.status(200).send("Like status updated");
+    } catch (e: any) {
+      res.status(500).send(e.message);
+      return;
+    }
+  }
+);
+
+postRouter.delete(
+  // For deleting all posts. ONLY FOR TESTING
+  "/reset",
+  isAuthenticated,
+  async (req: Request, res: Response<string>) => {
+    try {
+      const success = await postService.deleteAllPosts();
+      if (success) {
+        res.status(200).send("All posts deleted");
+      } else {
+        res.status(500).send("Failed to delete posts");
+      }
     } catch (e: any) {
       res.status(500).send(e.message);
     }
