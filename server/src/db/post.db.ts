@@ -21,9 +21,6 @@ export class PostModel extends Model<
   declare likedBy: string[];
 }
 
-
-
-
 PostModel.init(
   {
     id: {
@@ -43,11 +40,11 @@ PostModel.init(
       type: DataTypes.STRING,
     },
     topics: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSON,
       allowNull: true,
     },
     likedBy: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSON,
       allowNull: false,
       defaultValue: [],
     },
