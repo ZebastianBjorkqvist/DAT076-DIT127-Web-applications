@@ -23,7 +23,7 @@ userRouter.get("/current", async (req: UserRequest, res: Response) => {
           username: user.username,
           email: user.email,
           numbr_of_posts: user.numbr_of_posts ?? 0,
-          numbr_of_likes: user.numbr_of_likes
+          numbr_of_likes: user.numbr_of_likes,
         });
       });
     } else {
@@ -34,44 +34,29 @@ userRouter.get("/current", async (req: UserRequest, res: Response) => {
   }
 });
 
-
-userRouter.post("/", async (req: UserRequest, res: Response) => {
+userRouter.post("/", async (req: Request, res: Response) => {
   try {
-    const email = req.body.email;
-    if (typeof email !== "string") {
-      res
-        .status(400)
-        .send(
-          `Bad PUT call to ${req.originalUrl
-          } --- email has type ${typeof email}`
-        );
+    const { email, password, username } = req.body;
+
+    if (typeof email !== "string" || !email.includes("@")) {
+      res.status(400).send("Invalid email format");
       return;
     }
 
-    const password = req.body.password;
-    if (typeof password !== "string") {
-      res
-        .status(400)
-        .send(
-          `Bad PUT call to ${req.originalUrl
-          } --- password has type ${typeof password}`
-        );
+    if (typeof password !== "string" || password.length < 2) {
+      res.status(400).send("Password must be at least 2 characters long");
       return;
     }
 
-    const username = req.body.username;
-    if (typeof username !== "string") {
-      res
-        .status(400)
-        .send(
-          `Bad PUT call to ${req.originalUrl
-          } --- username has type ${typeof username}`
-        );
+    if (typeof username !== "string" || username.length < 2) {
+      res.status(400).send("Username must be at least 2 characters long");
       return;
     }
 
     const newUser = await userService.createUser(email, password, username);
+
     res.status(201).send(newUser);
+    return;
   } catch (e: any) {
     if (e.message === "Username already exists") {
       res.status(409).send(e.message);
@@ -89,7 +74,8 @@ userRouter.post("/login", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${req.originalUrl
+          `Bad PUT call to ${
+            req.originalUrl
           } --- username has type ${typeof username}`
         );
       return;
@@ -99,7 +85,8 @@ userRouter.post("/login", async (req: UserRequest, res: Response) => {
       res
         .status(400)
         .send(
-          `Bad PUT call to ${req.originalUrl
+          `Bad PUT call to ${
+            req.originalUrl
           } --- password has type ${typeof password}`
         );
       return;
@@ -136,3 +123,18 @@ userRouter.post("/logout", (req: UserRequest, res: Response) => {
     res.status(200).send("Logged out");
   });
 });
+
+if (process.env.NODE_ENV === "test") {
+  userRouter.delete("/reset", async (req: Request, res: Response) => {
+    try {
+      const success = await userService.deleteAllUsers();
+      if (success) {
+        res.status(200).send("All users deleted");
+      } else {
+        res.status(500).send("Failed to delete users");
+      }
+    } catch (err: any) {
+      res.status(500).send(`Error deleting users: ${err.message}`);
+    }
+  });
+}
