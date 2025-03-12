@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../start"; // Import your Express app
+import { app } from "../start";
 import bcrypt from "bcrypt";
 import { initDB } from "../db/conn";
 
@@ -9,7 +9,6 @@ describe("POST /user", () => {
   });
 
   beforeEach(async () => {
-    // Reset the database using the /user/reset endpoint
     await request(app).delete("/user/reset");
   });
 
@@ -22,7 +21,6 @@ describe("POST /user", () => {
 
     const response = await request(app).post("/user").send(testUserInput);
 
-    // Assert the response
     expect(response.statusCode).toBe(201);
     expect(response.body.email).toEqual(testUserInput.email);
     expect(response.body.username).toEqual(testUserInput.username);
@@ -54,7 +52,6 @@ describe("POST /user", () => {
 
     const response = await request(app).post("/user").send(duplicateUserInput);
 
-    // Assert the response
     expect(response.statusCode).toBe(409);
     expect(response.text).toContain("Username already exists");
   });
@@ -68,7 +65,6 @@ describe("POST /user", () => {
 
     const response = await request(app).post("/user").send(testUserInput);
 
-    // Assert the response
     expect(response.statusCode).toBe(400);
     expect(response.text).toContain("Invalid email format");
   });
@@ -82,7 +78,6 @@ describe("POST /user", () => {
 
     const response = await request(app).post("/user").send(testUserInput);
 
-    // Assert the response
     expect(response.statusCode).toBe(400);
     expect(response.text).toContain(
       "Password must be at least 2 characters long"
@@ -98,7 +93,6 @@ describe("POST /user", () => {
 
     const response = await request(app).post("/user").send(testUserInput);
 
-    // Assert the response
     expect(response.statusCode).toBe(400);
     expect(response.text).toContain(
       "Username must be at least 2 characters long"
