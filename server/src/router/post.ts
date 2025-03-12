@@ -155,20 +155,22 @@ postRouter.post(
   }
 );
 
-postRouter.delete(
-  // For deleting all posts. ONLY FOR TESTING
-  "/reset",
-  isAuthenticated,
-  async (req: Request, res: Response<string>) => {
-    try {
-      const success = await postService.deleteAllPosts();
-      if (success) {
-        res.status(200).send("All posts deleted");
-      } else {
-        res.status(500).send("Failed to delete posts");
+if (process.env.NODE_ENV === "test") {
+  postRouter.delete(
+    // For deleting all posts. ONLY FOR TESTING
+    "/reset",
+    isAuthenticated,
+    async (req: Request, res: Response<string>) => {
+      try {
+        const success = await postService.deleteAllPosts();
+        if (success) {
+          res.status(200).send("All posts deleted");
+        } else {
+          res.status(500).send("Failed to delete posts");
+        }
+      } catch (e: any) {
+        res.status(500).send(e.message);
       }
-    } catch (e: any) {
-      res.status(500).send(e.message);
     }
-  }
-);
+  );
+}
