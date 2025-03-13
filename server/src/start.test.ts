@@ -30,7 +30,6 @@ test("After we create a post, it should appear in the list of posts", async () =
     .post("/post")
     .set("Cookie", cookie)
     .send({ text: testText, title: "testingpost title", topics: [] });
-  console.log(postRes);
   expect(postRes.status).toStrictEqual(201);
   expect(postRes.body.text).toStrictEqual(testText);
 
