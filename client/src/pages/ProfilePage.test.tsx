@@ -9,6 +9,11 @@ jest.mock("../api", () => ({
     getCurrentUser: jest.fn(),
 }));
 
+const mockUseAuth = jest.fn();
+jest.mock("../context/AuthContext", () => ({
+  useAuth: () => mockUseAuth(),
+}));
+
 //Mock navigate
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -30,6 +35,10 @@ describe("Profile page", () => {
 
 
     test("displays username and email when the user is authenticated", async () => {
+        mockUseAuth.mockReturnValue({
+            user: { id: "123", name: "Test User" },
+            isAuthenticated: true,
+          });
         (checkAuth as jest.Mock).mockResolvedValue(true);
         (getCurrentUser as jest.Mock).mockResolvedValue({
             username: "testuser",
@@ -45,6 +54,10 @@ describe("Profile page", () => {
     });
 
     test("redirects to login page when the user is not authenticated", async () => {
+        mockUseAuth.mockReturnValue({
+            user: null,
+            isAuthenticated: false,
+          });
         (checkAuth as jest.Mock).mockResolvedValue(false);
 
         render(<MemoryRouter><ProfilePage /></MemoryRouter>);
@@ -62,6 +75,10 @@ describe("Profile page", () => {
     });
 
     test("displays default values when the user is authenticated but the user data is not available", async () => {
+        mockUseAuth.mockReturnValue({
+            user: { id: "123", name: "Test User" },
+            isAuthenticated: true,
+          });
         (checkAuth as jest.Mock).mockResolvedValue(true);
         (getCurrentUser as jest.Mock).mockResolvedValue(undefined);
 
