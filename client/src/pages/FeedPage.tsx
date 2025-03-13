@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import CreatePostIcon from "../assets/Pencil 01.svg";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import FeedCard from "../components/feedCard";
 import { useEffect, useState } from "react";
 import { getPosts, getPostByTopic, Post } from "../api";
@@ -16,13 +16,13 @@ import SearchComponent from "../components/searchComponent";
 
 const FeedPage = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>("Welcome to the feed!")
+  const [title, setTitle] = useState<string>("Welcome to the feed!");
   const [message, setMessage] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const authContext = useAuth();
 
   const searchTopic = async (topic: string) => {
-    if(topic.length === 0 ){
+    if (topic.length === 0) {
       const ts = await getPosts();
       setPosts(ts);
       setTitle("All posts");
@@ -32,10 +32,10 @@ const FeedPage = () => {
       const ts = await getPostByTopic(topic);
       setPosts(ts);
       if (ts.length === 0) {
-        setTitle("No posts found with topic: " + topic)
+        setTitle("No posts found with topic: " + topic);
         return;
       }
-      setTitle("Topic: " + topic)
+      setTitle("Topic: " + topic);
     } catch (error) {
       console.error("Failed to load posts:", error);
     }
