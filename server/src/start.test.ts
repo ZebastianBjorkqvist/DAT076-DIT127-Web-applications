@@ -3,11 +3,14 @@ import { app } from "./start";
 import { Post } from "./model/post";
 import { User } from "./model/user";
 import exp from "constants";
+import { initDB } from "./db/conn";
 
 const request = SuperTest.default(app);
 let cookie: string[];
 
-beforeAll(async () => {});
+beforeAll(async () => {
+  await initDB();
+});
 
 test("After we create a post, it should appear in the list of posts", async () => {
   const createUserRes = await request
@@ -23,14 +26,17 @@ test("After we create a post, it should appear in the list of posts", async () =
   expect(cookie).toBeTruthy();
   const testText = "Test the whole server";
 
-  const res1 = await request
+  const postRes = await request
     .post("/post")
     .set("Cookie", cookie)
-    .send({ text: testText, title: "testingpost title" });
-  expect(res1.status).toStrictEqual(201);
-  expect(res1.body.text).toStrictEqual(testText);
+    .send({ text: testText, title: "testingpost title", topics: [] });
+  console.log(postRes);
+  expect(postRes.status).toStrictEqual(201);
+  expect(postRes.body.text).toStrictEqual(testText);
 
-  const res2 = await request.get("/post").set("Cookie", cookie);
-  expect(res2.status).toStrictEqual(200);
-  expect(res2.body.some((post: Post) => post.text === testText)).toBeTruthy();
+  const postGetRes = await request.get("/post").set("Cookie", cookie);
+  expect(postGetRes.status).toStrictEqual(200);
+  expect(
+    postGetRes.body.some((post: Post) => post.text === testText)
+  ).toBeTruthy();
 });
