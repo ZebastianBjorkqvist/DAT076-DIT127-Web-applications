@@ -46,7 +46,7 @@ postRouter.post(
       }
       const text = req.body.text;
       if (typeof text !== "string") {
-        res.status(400).send("description should be a string");
+        res.status(400).send("text should be a string");
         return;
       }
       const title = req.body.title;
