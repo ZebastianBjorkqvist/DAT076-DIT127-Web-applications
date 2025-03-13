@@ -15,7 +15,6 @@ import FeedPage from "./FeedPage";
 import { MemoryRouter } from "react-router-dom";
 import { getPosts, checkAuth, logout, getPostByTopic } from "../api";
 
-// Define Post interface
 interface Post {
   id: number;
   title: string;
@@ -24,7 +23,6 @@ interface Post {
   topics?: string[];
 }
 
-// Mock API calls
 jest.mock("../api", () => ({
   getPosts: jest.fn(),
   getPostByTopic: jest.fn(),
@@ -32,7 +30,6 @@ jest.mock("../api", () => ({
   logout: jest.fn(),
 }));
 
-// Mock `useAuth` to provide an authenticated user
 jest.mock("../context/AuthContext", () => ({
   useAuth: () => ({
     user: { id: "123", name: "Test User" },
@@ -40,14 +37,12 @@ jest.mock("../context/AuthContext", () => ({
   }),
 }));
 
-// Mock `useNavigate`
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNavigate,
 }));
 
-// Mock SearchComponent
 jest.mock("../components/searchComponent", () => {
   return function DummySearchComponent({
     onSearch,
@@ -64,7 +59,6 @@ jest.mock("../components/searchComponent", () => {
   };
 });
 
-// Mock FeedCard
 jest.mock("../components/feedCard", () => {
   return function DummyFeedCard({
     title,
@@ -86,7 +80,6 @@ jest.mock("../components/feedCard", () => {
   };
 });
 
-// Mock MainHeader
 jest.mock("../components/mainHeader", () => {
   return function DummyMainHeader() {
     return (
