@@ -27,8 +27,8 @@ function ProfilePage() {
             } else {
                 setUsername(user.username);
                 setEmail(user.email);
-                setamtLikes(user.numbr_of_likes.toString());
-                setamtPosts(user.numbr_of_posts.toString())
+                setamtLikes(user.numbr_of_likes ? user.numbr_of_likes.toString() : "0");
+                setamtPosts(user.numbr_of_posts ? user.numbr_of_posts.toString() : "0")
             }
         });
     }, []);
