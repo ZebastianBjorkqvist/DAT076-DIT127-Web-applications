@@ -1,13 +1,8 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import LoginPage from "./LoginPage";
 import { MemoryRouter } from "react-router-dom";
 import axios from "axios";
+import { AuthProvider } from "../context/AuthContext";
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
@@ -16,9 +11,11 @@ describe("LoginPage", () => {
 
   it("renders form", () => {
     render(
-      <MemoryRouter>
-        <LoginPage />
-      </MemoryRouter>
+      <AuthProvider>
+        <MemoryRouter>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>
     );
     const loginButton = screen.getByRole("button", { name: "Log in" });
     const usernameField = screen.getByLabelText("Username");
@@ -33,18 +30,18 @@ describe("LoginPage", () => {
 
   it("sends correct login data to backend", async () => {
     render(
-      <MemoryRouter>
-        <LoginPage />
-      </MemoryRouter>
+      <AuthProvider>
+        <MemoryRouter>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>
     );
     const loginButton = screen.getByRole("button", { name: "Log in" });
     const usernameField = screen.getByLabelText("Username");
     const pwdField = screen.getByLabelText("Password");
-    await act(async () => {
-      fireEvent.change(await usernameField, { target: { value: "zeb" } });
-      fireEvent.change(await pwdField, { target: { value: "123" } });
-      fireEvent.click(await loginButton);
-    });
+    fireEvent.change(usernameField, { target: { value: "zeb" } });
+    fireEvent.change(pwdField, { target: { value: "123" } });
+    fireEvent.click(loginButton);
 
     await waitFor(() => {
       expect(mockedAxios.post).toHaveBeenCalledWith(
