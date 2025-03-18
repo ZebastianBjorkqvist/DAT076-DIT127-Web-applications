@@ -26,4 +26,4 @@ contains the server/src folder which is structured according to the following li
 
 
 
-**The project report can be found as a pdf in the top layer of the repo, similarly to this README file.** TODO
+**The project report can be found as a pdf in the top layer of the repo, similarly to this README file.**
