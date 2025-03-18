@@ -32,6 +32,7 @@ export function CreatePost() {
           setAlert({ type: "success", message: "Post submitted successfully!" });
           setPostTitle("");
           setPostContent("");
+          setTopics([])
           setResetKey(prevKey => prevKey + 1);
         }
       })
